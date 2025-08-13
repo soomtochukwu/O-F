@@ -2,322 +2,282 @@
 
 **A Decentralized Cooperative Platform for African Smallholder Farmers**
 
-[![Hackathon](https://img.shields.io/badge/Status-Hackathon%20MVP-orange)](https://github.com/obodofarm)
-[![Blockchain](https://img.shields.io/badge/Blockchain-Avalanche%20Subnet-red)](https://www.avax.network/)
-[![Platform](https://img.shields.io/badge/Platform-Mobile%20%7C%20USSD%20%7C%20Web-blue)](https://github.com/obodofarm)
-
-> Empowering smallholder farmers through decentralized cooperation, shared resources, and transparent first-mile logistics.
+[![Hackathon](https://img.shields.io/badge/Status-MVP%20Hackathon-orange)](https://github.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Avalanche](https://img.shields.io/badge/Blockchain-Avalanche%20Subnet-red)](https://www.avax.network/)
 
 ## 🎯 Problem Statement
 
-Smallholder farmers in Nigeria (and across Africa) face a triple bottleneck that limits their productivity and profitability:
+Smallholder farmers and livestock keepers in Nigeria face a triple bottleneck:
 
-1. **Low Production Capacity**: Farmers rely on harmful chemical inputs or slow manual organic production due to lack of tools, capital, and secure land access
-2. **Post-Harvest Losses**: Poor pest management, inadequate feed, and lack of veterinary knowledge lead to significant crop spoilage and livestock deaths
-3. **Broken First-Mile Logistics**: High transport costs, unreliable delivery, and no cost-sharing mechanisms prevent farmers from accessing profitable markets
-
-**The Impact**: Despite having the skills, farmers remain trapped in low-yield, low-income cycles while missing out on formal finance opportunities.
+1. **Low Production Capacity**: Reliance on harmful chemicals or slow manual organic production due to lack of tools, capital, and secure land access
+2. **Post-Harvest Losses**: Pests, poor feed management, and limited veterinary knowledge leading to crop spoilage and livestock deaths
+3. **Broken First-Mile Logistics**: Expensive, slow, unreliable transport from farm to market with no cost-sharing mechanisms
 
 ## 💡 Solution
 
-ObodoFarm is a **Farmer Cooperative-as-a-Service** platform that digitizes trust, aggregates supply, and unlocks working capital through:
+ObodoFarm is a **Farmer Cooperative-as-a-Service** that digitizes trust, aggregates supply, and unlocks working capital for smallholders through:
 
-- **On-chain governance** for transparent decision-making
+- **On-chain governance** for transparent cooperative decision-making
 - **Tokenized pre-sales** and provenance tracking
-- **Offline-first access** via USSD and field agents
-- **Shared logistics network** ("Uber for Farm Produce")
-
-### Core Features
-
-#### 🤝 Production Boost Layer
-
-- **Resource Pooling**: Cooperative funds provide shared equipment, organic inputs, and seeds
-- **Democratic Proposals**: On-chain voting system for funding requests
-- **Knowledge Hub**: Best practices for organic farming and livestock management
-
-#### 🚛 First-Mile Logistics Network
-
-- **Shared Transport**: GPS-tracked rides with cost-sharing among farmers
-- **Route Optimization**: Match farmers with available drivers/vehicles
-- **Payment Escrow**: Automated payment release upon delivery confirmation
-
-#### 💰 Financial Infrastructure
-
-- **F-Credit Scoring**: Alternative credit assessment using farming data
-- **Tokenized Futures**: Pre-sale harvest tokens for buyer guarantees
-- **Transparent Lending**: Community-backed microcredit with on-chain tracking
+- **Offline-first access** via USSD + mobile app for feature phones
+- **Shared logistics network** ("Uber for Small Farm Produce")
+- **AI-powered advisory** via SMS for farming best practices
 
 ## 🏗️ Architecture
 
-### Blockchain Infrastructure
+### Tech Stack
 
-- **Primary Network**: ObodoFarm Avalanche Subnet
-- **Smart Contracts**: Solidity-based contracts for governance, payments, and tokenization
-- **Testnet**: Deployed on Avalanche Fuji for development and testing
+- **Frontend**: Next.js (React-based, mobile-responsive)
+- **Backend**: Express.js with MongoDB
+- **Blockchain**: Avalanche Subnet (ObodoFarm Subnet)
+- **Smart Contracts**: Avalanche Starter Kit (Solidity + OpenZeppelin)
+- **Mobile Integration**: Africa's Talking (USSD + SMS)
+- **AI Advisory**: Weather API + template-based crop tips
 
-### Technology Stack
+### System Components
 
-- **Backend**: Node.js/FastAPI + PostgreSQL
-- **Frontend**: React (mobile-responsive)
-- **Mobile Access**: USSD integration via Africa'sTalking
-- **Messaging**: SMS integration for AI advisory and alerts
-- **Storage**: IPFS for metadata and receipts
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │    Backend      │    │   Blockchain    │
+│   (Next.js)     │◄──►│  (Express.js)   │◄──►│ (Avalanche Sub) │
+│                 │    │   (MongoDB)     │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         ▲                       ▲                       ▲
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   USSD/SMS      │    │   AI Advisory   │    │ Smart Contracts │
+│ (Africa'sTalk)  │    │  (Weather API)  │    │ (Governance)    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-### Accessibility
+## 🚀 MVP Features (Hackathon Scope)
 
-- **USSD Support**: Works on feature phones (\*347# shortcode)
-- **Local Languages**: Multi-language support starting with Nigerian languages
-- **Offline-First**: Field agents enable participation in low-connectivity areas
+### Core Functionality
 
-## 🚀 Getting Started
+1. **📱 Mobile/USSD Onboarding**
+
+   - Local language support (English, Pidgin, Hausa, Igbo, Yoruba)
+   - Basic farmer profile (name, farm size, crop type)
+   - Feature phone compatibility
+
+2. **🏦 F-Credit Identity System**
+
+   - Alternative data credit scoring
+   - Community-based trust scoring
+   - Reputation tracking
+
+3. **🗳️ DAO Governance Lite**
+
+   - Proposal creation and voting UI
+   - On-chain vote recording
+   - Transparent fund allocation
+
+4. **💰 Smart Contract Integration**
+
+   - Profit-sharing contracts
+   - Automated fund distribution
+   - Escrow for logistics payments
+
+5. **🛒 Marketplace & Tokenization**
+
+   - Crop listing interface
+   - Tokenized harvest futures (ERC-721)
+   - Pre-sale buyer commitments
+
+6. **🚛 Logistics Network**
+
+   - Transport slot booking
+   - GPS tracking simulation
+   - Cost-sharing mechanisms
+
+7. **🤖 AI Farming Advisor**
+   - Weather-based crop tips
+   - SMS notifications
+   - Pest control guidance
+
+## 📋 Installation & Setup
 
 ### Prerequisites
 
-```bash
-Node.js >= 16.0.0
-PostgreSQL >= 12
-Avalanche CLI
-Foundry (for smart contracts)
-```
+- Node.js 18+
+- MongoDB 6.0+
+- Avalanche CLI
+- Africa's Talking API credentials
 
-### Installation
-
-1. **Clone the repository**
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/obodofarm/platform
-cd obodofarm-platform
+git clone https://github.com/your-org/obodofarm.git
+cd obodofarm
 ```
 
-2. **Install dependencies**
-
-```bash
-npm install
-cd contracts && forge install
-```
-
-3. **Set up environment variables**
-
-```bash
-cp .env.example .env
-# Configure your Avalanche subnet RPC, Africa'sTalking API keys, etc.
-```
-
-4. **Deploy smart contracts**
+### 2. Smart Contracts Setup
 
 ```bash
 cd contracts
-forge script script/Deploy.s.sol --rpc-url $OBODOFARM_SUBNET_RPC --broadcast
+npm install
+
+# Initialize Avalanche subnet
+avalanche subnet create obodofarm-subnet
+avalanche subnet deploy obodofarm-subnet
+
+# Deploy contracts
+npm run deploy:testnet
 ```
 
-5. **Start the application**
+### 3. Backend Setup
 
 ```bash
+cd backend
+npm install
+cp .env.example .env
+
+# Configure environment variables
+# MONGODB_URI=mongodb://localhost:27017/obodofarm
+# AVALANCHE_RPC_URL=your_subnet_rpc_url
+# AFRICAS_TALKING_API_KEY=your_api_key
+# WEATHER_API_KEY=your_weather_api_key
+
 npm run dev
 ```
 
-### USSD Testing
+### 4. Frontend Setup
 
-Dial `*347*1#` on your mobile device to test the onboarding flow.
+```bash
+cd frontend
+npm install
+cp .env.local.example .env.local
 
-## 📱 Demo Flow
+# Configure Next.js environment variables
+# NEXT_PUBLIC_API_URL=http://localhost:3001
+# NEXT_PUBLIC_CHAIN_ID=your_subnet_chain_id
 
-### For Farmers
+npm run dev
+```
 
-1. **Onboard** via USSD (`*347*1#`) or mobile app
-2. **Create Profile** (name, farm size, crop/livestock type)
-3. **Submit Proposals** for tools, inputs, or transport needs
-4. **Vote** on community proposals using F-Credit weight
-5. **Book Transport** and track deliveries
-6. **Receive** AI-powered farming tips via SMS
+## 🌟 Demo Script (5 Minutes)
 
-### For Drivers/Logistics Partners
+### For Hackathon Judges
 
-1. **Register** as transport provider
-2. **Accept** transport requests from farmers
-3. **Track** deliveries via GPS
-4. **Receive** automatic payment upon completion
+1. **Hook (30s)**: "Nigeria loses 40% of harvests post-production. Farmers earn 60% less due to middlemen."
 
-### For Buyers/Investors
+2. **Onboarding Demo (45s)**:
 
-1. **Browse** farmer profiles and upcoming harvests
-2. **Purchase** tokenized harvest futures
-3. **Track** provenance and delivery
-4. **Invest** in cooperative lending pools
+   - Dial `*123*456#` → Create farmer profile → Show F-Credit score
+
+3. **Governance Proof (45s)**:
+
+   - Create cooperative proposal for ₦50,000 farm inputs
+   - Cast votes → Display blockchain transaction hash
+
+4. **Finance Demo (45s)**:
+
+   - Simulate pooled funding → Execute profit-share contract
+   - Show automated fund distribution on-chain
+
+5. **Marketplace (30s)**:
+
+   - List 1 tonne of cassava → Buyer pre-purchase
+   - Mint tokenized harvest future
+
+6. **AI Advisory (30s)**:
+
+   - Display SMS: "Rain expected. Apply organic neem oil for pest control."
+
+7. **Ask (15s)**: "We need pilot partners and warehouse connections."
 
 ## 💼 Business Model
 
 ### Revenue Streams
 
-- **Marketplace Commission**: 2-5% of gross merchandise value (GMV)
-- **Logistics Fees**: Transport facilitation and GPS tracking
-- **Microloan Interest**: Spread on community-backed lending
-- **Storage Fees**: Warehouse receipt and inventory management
-- **Data & SaaS**: Subscription fees from agribusinesses for verified farm data
-- **Carbon Credits**: Revenue from verified organic farming practices
+- **Transaction Fees**: 2-5% marketplace commission
+- **Logistics Fees**: 10% of transport cost
+- **Microloan Interest**: 15-20% APR spread
+- **Storage Fees**: Warehouse receipt services
+- **Data Services**: Farm-level analytics to agribusinesses
+- **Carbon Credits**: Verified organic farming practices
 
-### Unit Economics (Conservative Scenario)
+### Conservative Projections
 
-- 100,000 farmers × $150 annual GMV = $15M total GMV
-- 3% commission = $450K annual revenue
-- Plus lending, logistics, and data revenue streams
+- 1,000 farmers (Hackathon pilot)
+- Average GMV per farmer: $150/year
+- Platform commission: 3%
+- **Total Revenue**: ~$4,500 (pilot phase)
+
+_Scale target: 100,000 farmers = $450,000 annual commission revenue_
 
 ## 📊 Key Performance Indicators
 
-### Hackathon Demo Metrics
+- **Gross Merchandise Value (GMV)**
+- **Monthly Active Farmers**
+- **Average Revenue Per User (ARPU)**
+- **Loan Default Rate**
+- **Transport Cost Reduction %**
+- **Post-Harvest Loss Reduction %**
 
-- ✅ **Farmer Signups**: USSD onboarding completions
-- ✅ **On-Chain Votes**: Testnet transactions recorded
-- ✅ **Smart Contract Execution**: Profit-share distributions
-- ✅ **Marketplace Activity**: Pre-sale token minting
-- ✅ **AI Advisory**: SMS tips delivered
+## 🚧 Development Roadmap
 
-### Production KPIs
+### Phase 1 (Hackathon - 7 Days)
 
-- Gross Merchandise Value (GMV)
-- Monthly Active Farmers (MAU)
-- Transport cost reduction %
-- Loan default rates
-- Average revenue per farmer
-- Customer acquisition cost (CAC)
+- [ ] USSD onboarding flow
+- [ ] Basic DAO voting mechanism
+- [ ] Smart contract deployment
+- [ ] Marketplace MVP
+- [ ] SMS integration
 
-## 🌍 Market Opportunity
+### Phase 2 (Post-Hackathon - 3 Months)
 
-### Target Market
+- [ ] Pilot with 1,000 farmers in 1 LGA
+- [ ] Advanced logistics tracking
+- [ ] Mobile app (offline-first)
+- [ ] Partnership integrations
 
-- **Primary**: Smallholder farmers in Nigeria (10M+ farmers)
-- **Secondary**: Livestock keepers and rural cooperatives
-- **Expansion**: West Africa, then continent-wide
+### Phase 3 (Scale - 12 Months)
 
-### Market Size
+- [ ] Multi-state deployment
+- [ ] Advanced AI advisory
+- [ ] Carbon credit integration
+- [ ] Institutional investor onboarding
 
-- **TAM**: $90B agricultural financing gap in Africa
-- **SAM**: $15B Nigerian agricultural market
-- **SOM**: 2M smallholder farmers accessible via mobile/USSD
+## 🤝 Contributing
 
-## 🤝 Partnerships
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md).
 
-### Current Integration Partners
+### Development Team Roles
 
-- **Africa'sTalking**: USSD and SMS infrastructure
-- **Local Cooperatives**: Community trust and adoption
-- **Transport Providers**: Last-mile delivery network
-
-### Seeking Partners
-
-- Agricultural extension officers
-- Commodity buyers and processors
-- Warehouse and storage providers
-- Impact investors and development finance
-
-## 📋 Roadmap
-
-### Phase 1: MVP (Hackathon - 7 Days) ✅
-
-- [x] USSD onboarding system
-- [x] Basic DAO governance (proposals + voting)
-- [x] Smart contract deployment on ObodoFarm subnet
-- [x] Logistics booking mockup
-- [x] AI advisory SMS integration
-
-### Phase 2: Pilot (3 Months)
-
-- [ ] Deploy in 1 Local Government Area (LGA)
-- [ ] Onboard 2,000 farmers
-- [ ] Establish transport network
-- [ ] Begin microcredit operations
-
-### Phase 3: Scale (6-12 Months)
-
-- [ ] Expand to 5 LGAs
-- [ ] Add livestock management features
-- [ ] Integrate carbon credit marketplace
-- [ ] Launch farmer insurance products
+- **Product Lead**: User research, feature prioritization
+- **Smart Contract Dev**: Solidity, Avalanche integration
+- **Frontend Dev**: Next.js, mobile-responsive UI
+- **Backend Dev**: Express.js APIs, database design
+- **Mobile Integrator**: USSD/SMS, Africa's Talking
 
 ## 🔒 Security & Compliance
 
-### Regulatory Approach
+- Community-based KYC for farmer verification
+- Legal cooperative structure for regulatory compliance
+- Smart contract audits planned for mainnet deployment
+- GDPR-compliant data handling
 
-- **Legal Structure**: Registered cooperative framework in Nigeria
-- **KYC/AML**: Phone-based identity with community attestations
-- **Token Classification**: Utility tokens and warehouse receipts (not securities)
-- **Data Protection**: GDPR-compliant data handling
+## 📞 Contact & Support
 
-### Technical Security
-
-- **Smart Contract Auditing**: OpenZeppelin-based contracts
-- **Multi-sig Governance**: Community treasury management
-- **Privacy**: Zero-knowledge proofs for sensitive farmer data
-
-## 🏆 Competitive Advantage
-
-### Differentiation from Existing Solutions
-
-- **vs. One Acre Fund**: Decentralized governance vs. top-down approach
-- **vs. AFEX**: Direct farmer ownership vs. corporate platform
-- **vs. Babban Gona**: Tokenized transparency vs. traditional cooperative
-- **vs. Other Fintechs**: Agricultural focus with logistics integration
-
-### Key Differentiators
-
-1. **True Farmer Ownership**: DAO governance with F-Credit weighted voting
-2. **Integrated Logistics**: Production + first-mile delivery in one platform
-3. **Offline Accessibility**: USSD works on any mobile phone
-4. **Transparent Finance**: On-chain loan tracking and profit sharing
-
-## 👥 Contributing
-
-We welcome contributions from developers, agricultural experts, and community organizers!
-
-### Development Setup
-
-```bash
-# Fork the repository
-git clone https://github.com/yourusername/obodofarm
-cd obodofarm
-
-# Create feature branch
-git checkout -b feature/your-feature-name
-
-# Make changes and test
-npm test
-
-# Submit pull request
-```
-
-### Community Guidelines
-
-- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
-- Check existing [Issues](https://github.com/obodofarm/platform/issues)
-- Join our [Discord](https://discord.gg/obodofarm) for discussions
+- **Email**: team@obodofarm.com
+- **Twitter**: [@ObodoFarm](https://twitter.com/obodofarm)
+- **Telegram**: [ObodoFarm Community](https://t.me/obodofarm)
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Contact & Support
+## 🙏 Acknowledgments
 
-### Team
-
-- **Product Lead**: [@teamlead](https://twitter.com/teamlead)
-- **Technical Lead**: [@techguru](https://twitter.com/techguru)
-- **Field Operations**: [@fieldops](https://twitter.com/fieldops)
-
-### Community
-
-- 🐦 **Twitter**: [@ObodoFarmAfrica](https://twitter.com/ObodoFarmAfrica)
-- 💬 **Discord**: [Join our community](https://discord.gg/obodofarm)
-- 📧 **Email**: hello@obodofarm.org
-- 🌐 **Website**: [obodofarm.org](https://obodofarm.org)
-
-### Support
-
-- 📖 **Documentation**: [docs.obodofarm.org](https://docs.obodofarm.org)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/obodofarm/platform/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/obodofarm/platform/discussions)
+- Nigeria's Ministry of Agriculture
+- Local cooperative unions
+- Avalanche Foundation
+- Africa's Talking API
+- Hackathon organizing committee
 
 ---
 
-**Built with ❤️ for African farmers | Powered by Avalanche Subnet Technology**
-
-> _"Connecting farmers to prosperity, one harvest at a time."_
+_Building the future of African agriculture, one farmer at a time._ 🌱
