@@ -2,11 +2,12 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
+import { Providers } from './Providers'
+
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'ObodoFarm | MVP',
+  description: '...decentralized Cooperative Platform for African Smallholder FarmersCreated with v0',
 }
 
 export default function RootLayout({
@@ -25,7 +26,12 @@ html {
 }
         `}</style>
       </head>
-      <body>{children}</body>
+      <body>
+        <Providers>
+
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }
