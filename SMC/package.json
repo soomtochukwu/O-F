@@ -1,6 +1,16 @@
 {
   "name": "SMC",
   "version": "1.0.0",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy-subnet.ts --network local",
+    "deploy:subnet": "hardhat run scripts/deploy-subnet.ts --network subnet",
+    "deploy:fuji": "hardhat run scripts/deploy-subnet.ts --network fuji",
+    "deploy:avalanche": "hardhat run scripts/deploy-subnet.ts --network avalanche",
+    "verify:subnet": "hardhat verify --network subnet",
+    "node:local": "hardhat node"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
     "@nomicfoundation/hardhat-ethers": "^3.1.0",

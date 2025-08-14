@@ -15,32 +15,59 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { defineChain } from "viem";
 
-// Define localhost hardhat chain
-const localhost = defineChain({
-    id: 1337,
-    name: 'Localhost',
+// Define your local Avalanche subnet/L1
+const localAvalancheSubnet = defineChain({
+    id: 99999, // Use a unique chain ID for your subnet
+    name: 'Local Avalanche Subnet',
     nativeCurrency: {
         decimals: 18,
-        name: 'Ether',
-        symbol: 'ETH',
+        name: 'AVAX',
+        symbol: 'AVAX',
     },
     rpcUrls: {
         default: {
-            http: ['http://127.0.0.1:8545'],
+            http: ['http://127.0.0.1:9650/ext/bc/C/rpc'], // Default Avalanche local node RPC
         },
     },
     blockExplorers: {
-        default: { name: 'Explorer', url: 'http://localhost:8545' },
+        default: { 
+            name: 'Local Explorer', 
+            url: 'http://localhost:8080' // Adjust if you have a local block explorer
+        },
     },
+    testnet: true,
+})
+
+// Alternative configuration for custom subnet
+const customSubnet = defineChain({
+    id: 12345, // Replace with your actual subnet chain ID
+    name: 'Custom Avalanche Subnet',
+    nativeCurrency: {
+        decimals: 18,
+        name: 'Custom Token', // Replace with your subnet's native token name
+        symbol: 'CTK', // Replace with your subnet's native token symbol
+    },
+    rpcUrls: {
+        default: {
+            http: ['http://127.0.0.1:9650/ext/bc/YOUR_SUBNET_ID/rpc'], // Replace with your subnet RPC URL
+        },
+    },
+    blockExplorers: {
+        default: { 
+            name: 'Subnet Explorer', 
+            url: 'http://localhost:8080' 
+        },
+    },
+    testnet: true,
 })
 
 // Determine initial chain based on environment
 const getInitialChain = () => {
-    // Check if we're in development mode and prefer testnet
+    // Always use local subnet in development
     if (process.env.NODE_ENV === 'development') {
-        return avalancheFuji; // Use testnet instead of localhost
+        return localAvalancheSubnet; // or customSubnet
     }
-    return avalanche; // or avalancheFuji for testnet
+    return avalanche;
 };
 
 // Add this missing line
@@ -57,12 +84,12 @@ const config = getDefaultConfig({
         ...wallets,
     ],
     chains: [
+        // Prioritize local subnet for development
+        localAvalancheSubnet,
+        // customSubnet, // Uncomment if using custom subnet
         avalancheFuji,
         avalanche,
-        // Only include localhost if explicitly enabled
-        ...(process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_LOCALHOST === 'true' 
-            ? [localhost] 
-            : []),
+        // Only include additional chains if explicitly enabled
         ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
             ? [avalancheFuji]
             : []),
