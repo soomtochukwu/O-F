@@ -9,7 +9,7 @@ import {
     lightTheme,
     darkTheme,
 } from "@rainbow-me/rainbowkit";
-import { metaMaskWallet, okxWallet, trustWallet } from "@rainbow-me/rainbowkit/wallets";
+import { coreWallet, metaMaskWallet, okxWallet, trustWallet } from "@rainbow-me/rainbowkit/wallets";
 import { avalanche, avalancheFuji } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
@@ -36,31 +36,33 @@ const localhost = defineChain({
 
 // Determine initial chain based on environment
 const getInitialChain = () => {
-    // Check if we're in development mode
+    // Check if we're in development mode and prefer testnet
     if (process.env.NODE_ENV === 'development') {
-        return localhost;
+        return avalancheFuji; // Use testnet instead of localhost
     }
-    // For production, use celoAlfajores (testnet) or celo (mainnet)
-    // You can customize this logic based on your deployment strategy
-    return avalanche; // or celo for mainnet
+    return avalanche; // or avalancheFuji for testnet
 };
 
+// Add this missing line
 const { wallets } = getDefaultWallets();
 
 const config = getDefaultConfig({
-    appName: "Celorean",
-    projectId: "b7cfcf662095cd0ee1e06aa9eebd146a",
+    appName: "ObodoFarm",
+    projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "b7cfcf662095cd0ee1e06aa9eebd146a",
     wallets: [
         {
             groupName: "Other",
-            wallets: [metaMaskWallet, okxWallet, trustWallet],
+            wallets: [coreWallet, metaMaskWallet, okxWallet, trustWallet],
         },
         ...wallets,
     ],
     chains: [
         avalancheFuji,
         avalanche,
-        localhost, // Add localhost chain
+        // Only include localhost if explicitly enabled
+        ...(process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_ENABLE_LOCALHOST === 'true' 
+            ? [localhost] 
+            : []),
         ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
             ? [avalancheFuji]
             : []),

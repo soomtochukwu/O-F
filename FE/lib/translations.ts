@@ -18,6 +18,7 @@ export const translations = {
     // App specific
     appName: "ObodoFarm",
     appTagline: "Empowering Nigerian farmers through technology and cooperation",
+    dashboard: "Dashboard",
     dashboardSubtitle: "Choose a service to get started",
 
     // Features
@@ -73,6 +74,7 @@ export const translations = {
     // App specific
     appName: "ObodoFarm",
     appTagline: "Fifun agbẹ Naijiria lagbara nipasẹ imọ-ẹrọ ati ifowosowopo",
+    dashboard: "Dashibodu",
     dashboardSubtitle: "Yan iṣẹ kan lati bẹrẹ",
 
     // Features
@@ -128,6 +130,7 @@ export const translations = {
     // App specific
     appName: "ObodoFarm",
     appTagline: "Ƙarfafa manoman Najeriya ta hanyar fasaha da haɗin kai",
+    dashboard: "Dashboard",
     dashboardSubtitle: "Zaɓi sabis don farawa",
 
     // Features
@@ -183,6 +186,7 @@ export const translations = {
     // App specific
     appName: "ObodoFarm",
     appTagline: "Inyere ndị ọrụ ugbo Naịjirịa aka site na teknụzụ na nkwekọrịta",
+    dashboard: "Dashboard",
     dashboardSubtitle: "Họrọ ọrụ iji malite",
 
     // Features

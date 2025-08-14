@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, ArrowRight, Users, Wheat, CheckCircle } from "lucide-react"
 import { VoiceButton } from "@/components/voice-button"
 import { LanguageSelector } from "@/components/language-selector"
+import { WalletConnectPrompt } from "@/components/wallet-connect-prompt"
 import { useLanguage } from "@/hooks/use-language"
 import Link from "next/link"
 import AnimatedFarmBackground from "@/components/animated-farm-background"
@@ -28,6 +29,7 @@ interface OnboardingData {
 export default function OnboardingPage() {
   const { language, changeLanguage } = useLanguage()
   const [currentStep, setCurrentStep] = useState(0)
+  const [showWalletPrompt, setShowWalletPrompt] = useState(false)
   const [formData, setFormData] = useState<OnboardingData>({
     language: language,
     name: "",
@@ -89,6 +91,18 @@ export default function OnboardingPage() {
 
   const handleComplete = () => {
     localStorage.setItem("obodofarm-user", JSON.stringify(formData))
+    localStorage.setItem("user_session", "active")
+    // Show wallet prompt before going to dashboard
+    setShowWalletPrompt(true)
+  }
+
+  const handleWalletPromptClose = () => {
+    setShowWalletPrompt(false)
+    window.location.href = "/dashboard"
+  }
+
+  const handleSkipWallet = () => {
+    setShowWalletPrompt(false)
     window.location.href = "/dashboard"
   }
 
@@ -312,7 +326,7 @@ export default function OnboardingPage() {
               </div>
             </div>
             <Button onClick={handleComplete} className="w-full text-lg py-3 bg-green-600 hover:bg-green-700">
-              Start Using ObodoFarm
+              Continue to Dashboard
             </Button>
             <VoiceButton
               text="Congratulations! Your ObodoFarm account is ready. You can now access all features including voting, transport booking, and farming tips."
@@ -414,6 +428,13 @@ export default function OnboardingPage() {
           </div>
         )}
       </div>
+
+      {/* Wallet Connect Prompt */}
+      <WalletConnectPrompt
+        isOpen={showWalletPrompt}
+        onClose={handleWalletPromptClose}
+        onSkip={handleSkipWallet}
+      />
     </div>
   )
 }
