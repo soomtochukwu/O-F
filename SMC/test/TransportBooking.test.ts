@@ -1,7 +1,9 @@
 import { expect } from "chai";
-import { ethers, upgrades } from "hardhat";
-import { UserRegistry, TransportBooking } from "../../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
+import hre from "hardhat";
+import { TransportBooking, UserRegistry } from "../typechain-types";
+
+const { ethers, upgrades } = hre;
 
 describe("TransportBooking", function () {
   let userRegistry: UserRegistry;
