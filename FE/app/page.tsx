@@ -45,105 +45,151 @@ export default function LandingPage() {
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex justify-between items-center p-4 mb-8">
-          <div className="flex items-center gap-2">
-            <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-              <Users className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-green-800">ObodoFarm</h1>
-          </div>
+        <header className="sticky top-0 max-w-full bg-white/80 backdrop-blur-md shadow-md flex justify-between items-center px-6 py-2 mb-4 h-16">
+          <img 
+            className="w-90 h-50 ml-[-90px]" 
+            src="\ObodoFarm-logo.png" 
+            alt="Logo" 
+          />
           <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={setSelectedLanguage} />
-        </div>
+        </header>
 
-        {/* Hero Section */}
-        <div className="px-4 mb-12 text-center">
-          <div className="mb-6">
-            <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Users className="w-12 h-12 text-white" />
+        {/* Main Content */}
+        <main className="max-w-6xl mx-auto px-6">
+          {/* Hero Section */}
+          <div className="mb-12 text-center">
+            <div className="mb-6">
+              <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-12 h-12 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold text-green-800 mb-4">{getTranslation("hero_title", selectedLanguage)}</h2>
+              <p className="text-xl text-green-700 mb-6 leading-relaxed">
+                {getTranslation("hero_subtitle", selectedLanguage)}
+              </p>
+              <VoiceButton
+                text={`${getTranslation("hero_title", selectedLanguage)}. ${getTranslation("hero_subtitle", selectedLanguage)}`}
+                language={selectedLanguage}
+              />
             </div>
-            <h2 className="text-3xl font-bold text-green-800 mb-4">{getTranslation("hero_title", selectedLanguage)}</h2>
-            <p className="text-xl text-green-700 mb-6 leading-relaxed">
-              {getTranslation("hero_subtitle", selectedLanguage)}
-            </p>
-            <VoiceButton
-              text={`${getTranslation("hero_title", selectedLanguage)}. ${getTranslation("hero_subtitle", selectedLanguage)}`}
-              language={selectedLanguage}
-            />
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full">
+              <Button
+                size="lg"
+                className="text-xl py-4 bg-green-600 hover:bg-green-700 w-full md:w-auto"
+                onClick={() => (window.location.href = "/onboarding")}
+              >
+                <Smartphone className="w-6 h-6 mr-2" />
+                {getTranslation("get_started", selectedLanguage)}
+              </Button>
+
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-xl py-4 bg-transparent w-full md:w-auto"
+                onClick={() => (window.location.href = "/ussd")}
+              >
+                <Globe className="w-6 h-6 mr-2" />
+                {getTranslation("ussd_access", selectedLanguage)}
+              </Button>
+            </div>            
           </div>
 
-          {/* CTA Buttons */}
-          <div className="space-y-4 mb-8">
-            <Button
-              size="lg"
-              className="w-full text-xl py-4 bg-green-600 hover:bg-green-700"
-              onClick={() => (window.location.href = "/onboarding")}
-            >
-              <Smartphone className="w-6 h-6 mr-2" />
-              {getTranslation("get_started", selectedLanguage)}
-            </Button>
-
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full text-xl py-4 bg-transparent"
-              onClick={() => (window.location.href = "/ussd")}
-            >
-              <Globe className="w-6 h-6 mr-2" />
-              {getTranslation("ussd_access", selectedLanguage)}
-            </Button>
-          </div>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="px-4 mb-12">
-          <h3 className="text-2xl font-bold text-center text-green-800 mb-8">
-            {getTranslation("why_obodofarm", selectedLanguage)}
-          </h3>
-
-          <div className="grid grid-cols-1 gap-6">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon
-              return (
-                <Card key={index} className="border-2 border-green-200">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div
-                        className={`w-12 h-12 ${benefit.color} rounded-full flex items-center justify-center flex-shrink-0`}
-                      >
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                          {getTranslation(benefit.titleKey, selectedLanguage)}
-                        </h4>
-                        <p className="text-gray-600 leading-relaxed">
-                          {getTranslation(benefit.descKey, selectedLanguage)}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Voice Assistant Introduction */}
-        <Card className="mx-4 mb-8 border-2 border-blue-200">
-          <CardContent className="p-6 text-center">
-            <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mic className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-xl font-semibold text-blue-800 mb-3">
-              {getTranslation("voice_assistant", selectedLanguage)}
+          {/* Benefits Section */}
+          <div className="px-4 mb-12">
+            <h3 className="text-2xl font-bold text-center text-green-800 mb-8">
+              {getTranslation("why_obodofarm", selectedLanguage)}
             </h3>
-            <p className="text-blue-700 mb-4">{getTranslation("voice_assistant_desc", selectedLanguage)}</p>
-            <VoiceButton text={getTranslation("voice_assistant_desc", selectedLanguage)} language={selectedLanguage} />
-          </CardContent>
-        </Card>
 
-        {/* AI Voice Assistant */}
-        <AIVoiceAssistant language={selectedLanguage} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {benefits.map((benefit, index) => {
+                const Icon = benefit.icon
+                return (
+                  <Card key={index} className="border-2 border-green-200">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div
+                          className={`w-12 h-12 ${benefit.color} rounded-full flex items-center justify-center flex-shrink-0`}
+                        >
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                            {getTranslation(benefit.titleKey, selectedLanguage)}
+                          </h4>
+                          <p className="text-gray-600 leading-relaxed">
+                            {getTranslation(benefit.descKey, selectedLanguage)}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Voice Assistant Introduction */}
+          <Card className="mx-4 mb-8 border-2 border-blue-200">
+            <CardContent className="p-6 text-center">
+              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mic className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-blue-800 mb-3">
+                {getTranslation("voice_assistant", selectedLanguage)}
+              </h3>
+              <p className="text-blue-700 mb-4">{getTranslation("voice_assistant_desc", selectedLanguage)}</p>
+              <VoiceButton text={getTranslation("voice_assistant_desc", selectedLanguage)} language={selectedLanguage} />
+            </CardContent>
+          </Card>
+
+          {/* AI Voice Assistant */}
+          <AIVoiceAssistant language={selectedLanguage} />
+        </main>
+        
+        {/* Footer */}
+        <footer className="bg-green-700 text-white mt-12">
+          <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Brand */}
+            <div>
+              <h4 className="text-xl font-bold mb-3">ObodoFarm</h4>
+              <p className="text-green-100 leading-relaxed">
+                {getTranslation("footer_about", selectedLanguage) || 
+                  "Empowering farmers with technology, market access, and financial security."}
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h5 className="text-lg font-semibold mb-3">{getTranslation("quick_links", selectedLanguage) || "Quick Links"}</h5>
+              <ul className="space-y-2">
+                <li><a href="/onboarding" className="hover:underline">{getTranslation("get_started", selectedLanguage)}</a></li>
+                <li><a href="/ussd" className="hover:underline">{getTranslation("ussd_access", selectedLanguage)}</a></li>
+                <li><a href="#benefits" className="hover:underline">{getTranslation("why_obodofarm", selectedLanguage)}</a></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h5 className="text-lg font-semibold mb-3">{getTranslation("contact_us", selectedLanguage) || "Contact Us"}</h5>
+              <p>Email: <a href="mailto:info@obodofarm.com" className="hover:underline">info@obodofarm.com</a></p>
+              <p>{getTranslation("phone", selectedLanguage) || "Phone"}: +234 800 000 0000</p>
+              <div className="flex gap-4 mt-3">
+                <a href="#" aria-label="Facebook" className="hover:text-green-300"><i className="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter" className="hover:text-green-300"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram" className="hover:text-green-300"><i className="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="bg-green-800 py-4">
+            <p className="text-center text-green-200 text-sm">
+              © {new Date().getFullYear()} ObodoFarm. {getTranslation("all_rights_reserved", selectedLanguage) || "All rights reserved."}
+            </p>
+          </div>
+        </footer>
       </div>
     </div>
   )

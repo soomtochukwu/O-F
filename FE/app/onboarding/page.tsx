@@ -397,7 +397,7 @@ export default function OnboardingPage() {
 
         {/* Navigation */}
         {currentStepData.id !== "complete" && (
-          <div className="max-w-md mx-auto mt-6 flex gap-4">
+          <div className="max-w-md mx-auto mt-6 mb-5 flex gap-4">
             <Button
               onClick={handleBack}
               variant="outline"
