@@ -262,9 +262,9 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## 📞 Contact & Support
 
-- **Email**: team@obodofarm.com
-- **Twitter**: [@ObodoFarm](https://twitter.com/obodofarm)
-- **Telegram**: [ObodoFarm Community](https://t.me/obodofarm)
+- **Email**: --
+- **Twitter**: --
+- **Telegram**: --
 
 ## 📄 License
 
