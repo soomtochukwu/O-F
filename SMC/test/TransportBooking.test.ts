@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
+import { time } from "@nomicfoundation/hardhat-network-helpers";
 import hre from "hardhat";
 import { TransportBooking, UserRegistry } from "../typechain-types";
 
@@ -84,7 +85,8 @@ describe("TransportBooking", function () {
 
   describe("Booking Creation", function () {
     it("Should create a new booking with correct deposit", async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400; // Tomorrow
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400; // Tomorrow
       const scheduledTime = scheduledDate + 3600; // 1 hour later
       
       // Calculate required deposit (20% of estimated cost)
@@ -113,7 +115,8 @@ describe("TransportBooking", function () {
     });
 
     it("Should create a shared ride booking", async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(0, "Lagos", "Ibadan"); // MOTORCYCLE
@@ -139,7 +142,8 @@ describe("TransportBooking", function () {
     });
 
     it("Should reject booking with insufficient deposit", async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -160,7 +164,8 @@ describe("TransportBooking", function () {
 
     it("Should reject booking for unregistered user", async function () {
       const [unregisteredUser] = await ethers.getSigners();
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
 
       await expect(
@@ -198,7 +203,8 @@ describe("TransportBooking", function () {
     let bookingId: number;
 
     beforeEach(async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -244,7 +250,8 @@ describe("TransportBooking", function () {
     let sharedBookingId: number;
 
     beforeEach(async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -285,7 +292,8 @@ describe("TransportBooking", function () {
 
     it("Should not allow joining non-shared ride", async function () {
       // Create regular booking
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -325,7 +333,8 @@ describe("TransportBooking", function () {
     let bookingId: number;
 
     beforeEach(async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -377,7 +386,8 @@ describe("TransportBooking", function () {
     let bookingId: number;
 
     beforeEach(async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -468,8 +478,26 @@ describe("TransportBooking", function () {
   });
 
   describe("User Bookings Query", function () {
+    it("Should reject booking scheduled in the past", async function () {
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime - 86400; // Yesterday (in the past)
+      const scheduledTime = scheduledDate + 3600;
+      
+      const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
+      const requiredDeposit = (estimatedCost * 20n) / 100n;
+
+      await expect(
+        transportBooking.connect(customer).createBooking(
+          1, "Lagos, Nigeria", "Abuja, Nigeria",
+          scheduledDate, scheduledTime, false,
+          { value: requiredDeposit }
+        )
+      ).to.be.revertedWith("Cannot schedule in the past");
+    });
+
     it("Should return user's bookings", async function () {
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
       
       const estimatedCost = await transportBooking.calculateCost(1, "Lagos", "Abuja");
@@ -499,7 +527,8 @@ describe("TransportBooking", function () {
     it("Should allow admin to pause/unpause", async function () {
       await transportBooking.connect(admin).pause();
 
-      const scheduledDate = Math.floor(Date.now() / 1000) + 86400;
+      const currentTime = await time.latest();
+      const scheduledDate = currentTime + 86400;
       const scheduledTime = scheduledDate + 3600;
 
       await expect(
