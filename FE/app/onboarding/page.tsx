@@ -357,20 +357,28 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 p-4 relative">
-      {/* Animated Background */}
-      <AnimatedFarmBackground />
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern - Matching Landing Page */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-white hover:bg-green-500/10 hover:text-green-400">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Exit Setup
             </Button>
           </Link>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-gray-400">
             Step {currentStep + 1} of {steps.length}
           </div>
         </div>
@@ -382,29 +390,31 @@ export default function OnboardingPage() {
               <div
                 key={step.id}
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  index <= currentStep ? "bg-green-600 text-white" : "bg-gray-200 text-gray-500"
+                  index <= currentStep 
+                    ? "bg-green-500 text-black shadow-lg shadow-green-500/30" 
+                    : "bg-gray-700 text-gray-400 border border-gray-600"
                 }`}
               >
                 {index + 1}
               </div>
             ))}
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-700 rounded-full h-2">
             <div
-              className="bg-green-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 shadow-lg shadow-green-500/30"
               style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Main Content */}
-        <Card className="max-w-md mx-auto border-2 border-green-200">
+        <Card className="max-w-md mx-auto bg-black/70 border border-green-500/30 backdrop-blur-sm">
           <CardHeader className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <StepIcon className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/30">
+              <StepIcon className="w-8 h-8 text-black font-bold" />
             </div>
-            <CardTitle className="text-xl text-green-800">{currentStepData.title}</CardTitle>
-            <p className="text-muted-foreground">{currentStepData.subtitle}</p>
+            <CardTitle className="text-xl text-white">{currentStepData.title}</CardTitle>
+            <p className="text-gray-300">{currentStepData.subtitle}</p>
           </CardHeader>
           <CardContent>{renderStepContent()}</CardContent>
         </Card>
@@ -415,13 +425,17 @@ export default function OnboardingPage() {
             <Button
               onClick={handleBack}
               variant="outline"
-              className="flex-1 bg-transparent"
+              className="flex-1 border-green-500/60 text-green-400 hover:bg-green-500/10 hover:border-green-400 backdrop-blur-sm"
               disabled={currentStep === 0}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            <Button onClick={handleNext} className="flex-1 bg-green-600 hover:bg-green-700" disabled={!canProceed()}>
+            <Button 
+              onClick={handleNext} 
+              className="flex-1 bg-green-500 hover:bg-green-600 text-black font-bold shadow-lg shadow-green-500/30 hover:shadow-green-500/40" 
+              disabled={!canProceed()}
+            >
               Next
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>

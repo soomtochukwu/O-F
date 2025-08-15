@@ -164,71 +164,103 @@ A driver will contact you soon.`)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 p-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Link href="/">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
-        </Link>
-        <div className="flex items-center gap-2">
-          <Truck className="w-5 h-5 text-orange-600" />
-          <span className="text-sm text-orange-600">Transport Hub</span>
+    <div className="mt-8 min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
+
+      {/* Main Container with Responsive Layout */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Container with max width and centering */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 transition-colors">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+            <div className="flex items-center gap-2">
+              <Truck className="w-5 h-5 text-green-400" />
+              <span className="text-sm text-green-400 font-medium">Transport Hub</span>
+            </div>
+          </div>
+
+          {/* Title Section */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent mb-3">
+              Transport & Logistics
+            </h1>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">Book rides and track your deliveries with ease</p>
+          </div>
+
+          {/* Navigation Tabs - Responsive */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="flex flex-col sm:flex-row gap-2 bg-black/70 rounded-xl p-2 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+              <Button
+                variant={activeTab === "book" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${activeTab === "book"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                  }`}
+                onClick={() => setActiveTab("book")}
+              >
+                Book Transport
+              </Button>
+              <Button
+                variant={activeTab === "track" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${activeTab === "track"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                  }`}
+                onClick={() => setActiveTab("track")}
+              >
+                Track Booking
+              </Button>
+              <Button
+                variant={activeTab === "history" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${activeTab === "history"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                  }`}
+                onClick={() => setActiveTab("history")}
+              >
+                History
+              </Button>
+            </div>
+          </div>
+
+          {/* Content Area with Responsive Container */}
+          <div className="max-w-4xl mx-auto">
+            {activeTab === "book" && (
+              <BookingForm
+                vehicles={vehicles}
+                timeSlots={timeSlots}
+                bookingStep={bookingStep}
+                setBookingStep={setBookingStep}
+                bookingData={bookingData}
+                setBookingData={setBookingData}
+                onSubmit={handleBookingSubmit}
+                language={language}
+              />
+            )}
+
+            {activeTab === "track" && (
+              <TrackingView bookings={mockBookings.filter((b) => b.status !== "delivered")} language={language} />
+            )}
+
+            {activeTab === "history" && <HistoryView bookings={mockBookings} language={language} />}
+          </div>
         </div>
       </div>
-
-      {/* Title */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-orange-800 mb-2">Transport & Logistics</h1>
-        <p className="text-orange-600">Book rides and track your deliveries</p>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="flex gap-2 mb-6 bg-white rounded-lg p-1 border-2 border-orange-200">
-        <Button
-          variant={activeTab === "book" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "book" ? "bg-orange-600" : ""}`}
-          onClick={() => setActiveTab("book")}
-        >
-          Book Transport
-        </Button>
-        <Button
-          variant={activeTab === "track" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "track" ? "bg-orange-600" : ""}`}
-          onClick={() => setActiveTab("track")}
-        >
-          Track Booking
-        </Button>
-        <Button
-          variant={activeTab === "history" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "history" ? "bg-orange-600" : ""}`}
-          onClick={() => setActiveTab("history")}
-        >
-          History
-        </Button>
-      </div>
-
-      {/* Content */}
-      {activeTab === "book" && (
-        <BookingForm
-          vehicles={vehicles}
-          timeSlots={timeSlots}
-          bookingStep={bookingStep}
-          setBookingStep={setBookingStep}
-          bookingData={bookingData}
-          setBookingData={setBookingData}
-          onSubmit={handleBookingSubmit}
-          language={language}
-        />
-      )}
-
-      {activeTab === "track" && (
-        <TrackingView bookings={mockBookings.filter((b) => b.status !== "delivered")} language={language} />
-      )}
-
-      {activeTab === "history" && <HistoryView bookings={mockBookings} language={language} />}
     </div>
   )
 }
@@ -255,73 +287,77 @@ function BookingForm({
   const selectedVehicle = vehicles.find((v) => v.type === bookingData.vehicleType)
 
   return (
-    <div className="space-y-6">
-      {/* Progress Steps */}
-      <div className="flex justify-center mb-8">
-        <div className="flex items-center gap-4">
+    <div className="space-y-8">
+      {/* Progress Steps - Enhanced */}
+      <div className="flex justify-center mb-10">
+        <div className="flex items-center gap-4 bg-black/50 px-6 py-4 rounded-xl backdrop-blur-sm border border-green-500/20">
           {[1, 2, 3].map((step) => (
             <div key={step} className="flex items-center">
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                  step <= bookingStep ? "bg-orange-600 text-white" : "bg-gray-200 text-gray-500"
-                }`}
+                className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${step <= bookingStep
+                    ? "bg-green-500 text-black shadow-lg scale-110"
+                    : "bg-gray-600 text-gray-300"
+                  }`}
               >
                 {step}
               </div>
-              {step < 3 && <div className={`w-8 h-1 mx-2 ${step < bookingStep ? "bg-orange-600" : "bg-gray-200"}`} />}
+              {step < 3 && (
+                <div className={`w-12 h-1 mx-3 rounded-full transition-all duration-300 ${step < bookingStep ? "bg-green-500" : "bg-gray-600"
+                  }`} />
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Step 1: Vehicle Selection */}
+      {/* Step 1: Vehicle Selection - Enhanced */}
       {bookingStep === 1 && (
-        <Card className="border-2 border-orange-200">
-          <CardHeader>
-            <CardTitle className="text-xl text-orange-800 text-center">Choose Vehicle Type</CardTitle>
-            <p className="text-center text-orange-600">Select the best option for your needs</p>
+        <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-2xl text-white mb-2">Choose Vehicle Type</CardTitle>
+            <p className="text-gray-300 text-lg">Select the best option for your needs</p>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6 p-6">
             <RadioGroup
               value={bookingData.vehicleType}
               onValueChange={(value) => setBookingData({ ...bookingData, vehicleType: value })}
+              className="space-y-4"
             >
               {vehicles.map((vehicle) => (
                 <div
                   key={vehicle.type}
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${
-                    bookingData.vehicleType === vehicle.type
-                      ? "border-orange-500 bg-orange-50"
-                      : "border-gray-300 hover:border-orange-300"
-                  }`}
+                  className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02] ${bookingData.vehicleType === vehicle.type
+                      ? "border-green-500 bg-green-500/10 shadow-lg shadow-green-500/20"
+                      : "border-gray-600 hover:border-green-400 bg-black/50 hover:bg-black/70"
+                    }`}
                   onClick={() => setBookingData({ ...bookingData, vehicleType: vehicle.type })}
                 >
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value={vehicle.type} id={vehicle.type} />
+                  <div className="flex items-center space-x-4">
+                    <RadioGroupItem value={vehicle.type} id={vehicle.type} className="border-green-400" />
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-3xl">{vehicle.icon}</span>
-                        <div>
-                          <h3 className="text-lg font-semibold">{vehicle.name}</h3>
-                          <p className="text-sm text-gray-600">{vehicle.capacity}</p>
+                      <div className="flex items-center gap-4 mb-3">
+                        <span className="text-4xl">{vehicle.icon}</span>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-semibold text-white mb-1">{vehicle.name}</h3>
+                          <p className="text-gray-400">{vehicle.capacity}</p>
                         </div>
-                        <div className="ml-auto text-right">
-                          <div className="text-xl font-bold text-green-600">₦{vehicle.baseCost}</div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-green-400">₦{vehicle.baseCost.toLocaleString()}</div>
                           <div className="text-sm text-gray-500">Base price</div>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-700">{vehicle.description}</p>
+                      <p className="text-gray-300 ml-16">{vehicle.description}</p>
                     </div>
                   </div>
                 </div>
               ))}
             </RadioGroup>
 
-            <div className="flex gap-3">
+            <div className="flex gap-4 pt-4">
               <Button
                 onClick={() => setBookingStep(2)}
                 disabled={!bookingData.vehicleType}
-                className="flex-1 bg-orange-600 hover:bg-orange-700 py-3"
+                className="flex-1 bg-green-500 hover:bg-green-600 text-black font-bold py-4 text-lg rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next: Location & Time
               </Button>
@@ -336,15 +372,15 @@ function BookingForm({
         </Card>
       )}
 
-      {/* Step 2: Location & Time */}
+      {/* Step 2: Location & Time - Enhanced */}
       {bookingStep === 2 && (
-        <Card className="border-2 border-orange-200">
-          <CardHeader>
-            <CardTitle className="text-xl text-orange-800 text-center">Location & Time</CardTitle>
-            <p className="text-center text-orange-600">Where and when do you need transport?</p>
+        <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-2xl text-white mb-2">Location & Time</CardTitle>
+            <p className="text-gray-300 text-lg">Where and when do you need transport?</p>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
+          <CardContent className="space-y-8 p-6">
+            <div className="space-y-6">
               <LocationMapSelector
                 pickupLocation={bookingData.pickup}
                 dropoffLocation={bookingData.dropoff}
@@ -352,24 +388,24 @@ function BookingForm({
                 language={language}
               />
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-lg font-medium">Date</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <Label className="text-lg font-medium text-white">Date</Label>
                   <Input
                     type="date"
                     value={bookingData.date}
                     onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
-                    className="text-lg py-3 mt-2"
+                    className="text-lg py-4 bg-black/50 border-gray-600 text-white rounded-xl focus:border-green-500 transition-colors"
                     min={new Date().toISOString().split("T")[0]}
                   />
                 </div>
 
-                <div>
-                  <Label className="text-lg font-medium">Time</Label>
+                <div className="space-y-3">
+                  <Label className="text-lg font-medium text-white">Time</Label>
                   <select
                     value={bookingData.time}
                     onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
-                    className="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mt-2 focus:border-orange-500 focus:outline-none"
+                    className="w-full p-4 border-2 border-gray-600 rounded-xl text-lg focus:border-green-500 focus:outline-none bg-black/50 text-white transition-colors"
                   >
                     <option value="">Select time</option>
                     {timeSlots.map((time) => (
@@ -382,14 +418,18 @@ function BookingForm({
               </div>
             </div>
 
-            <div className="flex gap-3">
-              <Button onClick={() => setBookingStep(1)} variant="outline" className="flex-1 py-3">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button
+                onClick={() => setBookingStep(1)}
+                variant="outline"
+                className="flex-1 py-4 border-gray-600 text-white hover:bg-white/10 rounded-xl transition-all duration-200"
+              >
                 Back
               </Button>
               <Button
                 onClick={() => setBookingStep(3)}
                 disabled={!bookingData.pickup || !bookingData.dropoff || !bookingData.date || !bookingData.time}
-                className="flex-1 bg-orange-600 hover:bg-orange-700 py-3"
+                className="flex-1 bg-green-500 hover:bg-green-600 text-black font-bold py-4 text-lg rounded-xl transition-all duration-200 disabled:opacity-50"
               >
                 Next: Review
               </Button>
@@ -404,94 +444,101 @@ function BookingForm({
         </Card>
       )}
 
-      {/* Step 3: Review & Confirm */}
+      {/* Step 3: Review & Confirm - Enhanced */}
       {bookingStep === 3 && selectedVehicle && (
-        <Card className="border-2 border-orange-200">
-          <CardHeader>
-            <CardTitle className="text-xl text-orange-800 text-center">Review Booking</CardTitle>
-            <p className="text-center text-orange-600">Confirm your transport details</p>
+        <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-2xl text-white mb-2">Review Booking</CardTitle>
+            <p className="text-gray-300 text-lg">Confirm your transport details</p>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="bg-orange-50 p-4 rounded-lg space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{selectedVehicle.icon}</span>
+          <CardContent className="space-y-8 p-6">
+            <div className="bg-green-500/10 p-6 rounded-xl space-y-4 border border-green-500/30">
+              <div className="flex items-center gap-4">
+                <span className="text-3xl">{selectedVehicle.icon}</span>
                 <div>
-                  <h3 className="text-lg font-semibold">{selectedVehicle.name}</h3>
-                  <p className="text-sm text-gray-600">{selectedVehicle.capacity}</p>
+                  <h3 className="text-xl font-semibold text-white">{selectedVehicle.name}</h3>
+                  <p className="text-gray-400">{selectedVehicle.capacity}</p>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-green-600" />
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="flex items-center gap-2 text-gray-300">
+                    <MapPin className="w-5 h-5 text-green-400" />
                     From:
                   </span>
-                  <span className="font-medium">{bookingData.pickup}</span>
+                  <span className="font-medium text-white text-right max-w-xs">{bookingData.pickup}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-red-600" />
+                <div className="flex justify-between items-center">
+                  <span className="flex items-center gap-2 text-gray-300">
+                    <MapPin className="w-5 h-5 text-red-400" />
                     To:
                   </span>
-                  <span className="font-medium">{bookingData.dropoff}</span>
+                  <span className="font-medium text-white text-right max-w-xs">{bookingData.dropoff}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-600" />
+                <div className="flex justify-between items-center">
+                  <span className="flex items-center gap-2 text-gray-300">
+                    <Clock className="w-5 h-5 text-blue-400" />
                     When:
                   </span>
-                  <span className="font-medium">
+                  <span className="font-medium text-white">
                     {bookingData.date} at {bookingData.time}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Cost Sharing Option */}
-            <div className="border-2 border-gray-200 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="text-lg font-semibold">Cost Sharing</h4>
-                <DollarSign className="w-5 h-5 text-green-600" />
+            {/* Cost Sharing Option - Enhanced */}
+            <div className="border-2 border-gray-600 rounded-xl p-6 bg-black/50">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-xl font-semibold text-white">Cost Sharing</h4>
+                <DollarSign className="w-6 h-6 text-green-400" />
               </div>
 
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
+              <div className="space-y-4">
+                <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                   <input
                     type="checkbox"
                     checked={bookingData.shareRide}
                     onChange={(e) => setBookingData({ ...bookingData, shareRide: e.target.checked })}
-                    className="w-5 h-5"
+                    className="w-5 h-5 accent-green-500"
                   />
-                  <span>Share ride with other farmers to reduce cost</span>
+                  <span className="text-gray-300">Share ride with other farmers to reduce cost</span>
                 </label>
 
-                <div className="bg-gray-50 p-3 rounded">
-                  <div className="flex justify-between mb-2">
-                    <span>Base Cost:</span>
-                    <span className="font-bold">₦{selectedVehicle.baseCost}</span>
+                <div className="bg-gray-800 p-4 rounded-lg">
+                  <div className="flex justify-between mb-3">
+                    <span className="text-gray-300">Base Cost:</span>
+                    <span className="font-bold text-white">₦{selectedVehicle.baseCost.toLocaleString()}</span>
                   </div>
                   {bookingData.shareRide && (
-                    <div className="flex justify-between mb-2 text-green-600">
+                    <div className="flex justify-between mb-3 text-green-400">
                       <span>Shared (estimated):</span>
-                      <span className="font-bold">₦{Math.ceil(selectedVehicle.baseCost / 2)} per person</span>
+                      <span className="font-bold">₦{Math.ceil(selectedVehicle.baseCost / 2).toLocaleString()} per person</span>
                     </div>
                   )}
-                  <div className="border-t pt-2 flex justify-between text-lg font-bold">
-                    <span>Your Cost:</span>
-                    <span className="text-green-600">
-                      ₦{bookingData.shareRide ? Math.ceil(selectedVehicle.baseCost / 2) : selectedVehicle.baseCost}
+                  <div className="border-t border-gray-600 pt-3 flex justify-between text-xl font-bold">
+                    <span className="text-gray-300">Your Cost:</span>
+                    <span className="text-green-400">
+                      ₦{(bookingData.shareRide ? Math.ceil(selectedVehicle.baseCost / 2) : selectedVehicle.baseCost).toLocaleString()}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-3">
-              <Button onClick={() => setBookingStep(2)} variant="outline" className="flex-1 py-3">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button
+                onClick={() => setBookingStep(2)}
+                variant="outline"
+                className="flex-1 py-4 border-gray-600 text-white hover:bg-white/10 rounded-xl transition-all duration-200"
+              >
                 Back
               </Button>
-              <Button onClick={onSubmit} className="flex-1 bg-orange-600 hover:bg-orange-700 py-3">
+              <Button
+                onClick={onSubmit}
+                className="flex-1 bg-green-500 hover:bg-green-600 text-black font-bold py-4 text-lg rounded-xl transition-all duration-200"
+              >
                 Confirm Booking
               </Button>
             </div>
@@ -512,17 +559,17 @@ function TrackingView({ bookings, language }: { bookings: Booking[]; language: s
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
       case "confirmed":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-500/20 text-blue-300 border-blue-500/30"
       case "en-route":
-        return "bg-green-100 text-green-800"
+        return "bg-green-500/20 text-green-300 border-green-500/30"
       case "delivered":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-300 border-gray-500/30"
       case "cancelled":
-        return "bg-red-100 text-red-800"
+        return "bg-red-500/20 text-red-300 border-red-500/30"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-300 border-gray-500/30"
     }
   }
 
@@ -545,87 +592,87 @@ function TrackingView({ bookings, language }: { bookings: Booking[]; language: s
 
   if (bookings.length === 0) {
     return (
-      <Card className="border-2 border-orange-200">
-        <CardContent className="p-8 text-center">
-          <Truck className="w-16 h-16 text-orange-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-orange-800 mb-2">No Active Bookings</h3>
-          <p className="text-orange-600">You don't have any transport bookings to track right now.</p>
+      <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+        <CardContent className="p-12 text-center">
+          <Truck className="w-20 h-20 text-green-400 mx-auto mb-6" />
+          <h3 className="text-2xl font-semibold text-white mb-3">No Active Bookings</h3>
+          <p className="text-gray-300 text-lg">You don't have any transport bookings to track right now.</p>
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {bookings.map((booking) => (
-        <Card key={booking.id} className="border-2 border-orange-200">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">
+        <Card key={booking.id} className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl hover:shadow-green-500/10 transition-all duration-300">
+          <CardContent className="p-8">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <div className="text-3xl">
                   {booking.vehicleType === "motorcycle" ? "🏍️" : booking.vehicleType === "van" ? "🚐" : "🚛"}
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold capitalize">{booking.vehicleType}</h3>
-                  <p className="text-sm text-gray-600">Booking #{booking.id}</p>
+                  <h3 className="text-xl font-semibold capitalize text-white">{booking.vehicleType}</h3>
+                  <p className="text-gray-400">Booking #{booking.id}</p>
                 </div>
               </div>
-              <Badge className={getStatusColor(booking.status)}>
-                <div className="flex items-center gap-1">
+              <Badge className={`${getStatusColor(booking.status)} border px-3 py-1`}>
+                <div className="flex items-center gap-2">
                   {getStatusIcon(booking.status)}
                   {booking.status.toUpperCase()}
                 </div>
               </Badge>
             </div>
 
-            <div className="space-y-3 mb-4">
-              <div className="flex justify-between">
-                <span className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-green-600" />
+            <div className="space-y-4 mb-6">
+              <div className="flex justify-between items-center">
+                <span className="flex items-center gap-2 text-gray-300">
+                  <MapPin className="w-5 h-5 text-green-400" />
                   From:
                 </span>
-                <span className="font-medium">{booking.pickup}</span>
+                <span className="font-medium text-white text-right max-w-xs">{booking.pickup}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-red-600" />
+              <div className="flex justify-between items-center">
+                <span className="flex items-center gap-2 text-gray-300">
+                  <MapPin className="w-5 h-5 text-red-400" />
                   To:
                 </span>
-                <span className="font-medium">{booking.dropoff}</span>
+                <span className="font-medium text-white text-right max-w-xs">{booking.dropoff}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-blue-600" />
+              <div className="flex justify-between items-center">
+                <span className="flex items-center gap-2 text-gray-300">
+                  <Clock className="w-5 h-5 text-blue-400" />
                   Scheduled:
                 </span>
-                <span className="font-medium">
+                <span className="font-medium text-white">
                   {booking.date} at {booking.time}
                 </span>
               </div>
             </div>
 
             {booking.status === "en-route" && (
-              <div className="bg-green-50 p-4 rounded-lg mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Navigation className="w-5 h-5 text-green-600" />
-                  <span className="font-semibold text-green-800">Driver En Route</span>
+              <div className="bg-green-500/10 p-6 rounded-xl mb-6 border border-green-500/30">
+                <div className="flex items-center gap-3 mb-3">
+                  <Navigation className="w-6 h-6 text-green-400" />
+                  <span className="font-semibold text-green-400 text-lg">Driver En Route</span>
                 </div>
-                <p className="text-sm text-green-700 mb-2">
+                <p className="text-gray-300 mb-2">
                   Driver: {booking.driver} - {booking.driverPhone}
                 </p>
-                <p className="text-sm text-green-700">Estimated arrival: {booking.estimatedTime}</p>
+                <p className="text-gray-300">Estimated arrival: {booking.estimatedTime}</p>
               </div>
             )}
 
-            <div className="flex justify-between items-center pt-4 border-t">
+            <div className="flex justify-between items-center pt-6 border-t border-gray-600">
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-gray-600" />
-                <span className="text-sm">
+                <Users className="w-5 h-5 text-gray-400" />
+                <span className="text-gray-300">
                   {booking.sharedWith > 1 ? `Shared with ${booking.sharedWith - 1} others` : "Solo ride"}
                 </span>
               </div>
               <div className="text-right">
-                <div className="text-lg font-bold text-green-600">₦{booking.costPerPerson}</div>
+                <div className="text-xl font-bold text-green-400">₦{booking.costPerPerson.toLocaleString()}</div>
                 <div className="text-sm text-gray-500">per person</div>
               </div>
             </div>
@@ -644,47 +691,50 @@ function TrackingView({ bookings, language }: { bookings: Booking[]; language: s
 
 function HistoryView({ bookings, language }: { bookings: Booking[]; language: string }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {bookings.map((booking) => (
-        <Card key={booking.id} className="border-2 border-gray-200">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">
+        <Card key={booking.id} className="bg-black/70 border border-gray-600 backdrop-blur-sm shadow-2xl hover:shadow-gray-500/10 transition-all duration-300">
+          <CardContent className="p-8">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <div className="text-3xl">
                   {booking.vehicleType === "motorcycle" ? "🏍️" : booking.vehicleType === "van" ? "🚐" : "🚛"}
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold capitalize">{booking.vehicleType}</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="text-xl font-semibold capitalize text-white">{booking.vehicleType}</h3>
+                  <p className="text-gray-400">
                     {booking.date} at {booking.time}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-lg font-bold text-green-600">₦{booking.costPerPerson}</div>
+                <div className="text-xl font-bold text-green-400 mb-2">₦{booking.costPerPerson.toLocaleString()}</div>
                 <Badge
-                  className={booking.status === "delivered" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}
+                  className={`${booking.status === "delivered"
+                      ? "bg-green-500/20 text-green-300 border-green-500/30"
+                      : "bg-red-500/20 text-red-300 border-red-500/30"
+                    } border px-3 py-1`}
                 >
                   {booking.status.toUpperCase()}
                 </Badge>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Route:</span>
-                <span className="font-medium">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Route:</span>
+                <span className="font-medium text-white text-right max-w-xs">
                   {booking.pickup} → {booking.dropoff}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Driver:</span>
-                <span className="font-medium">{booking.driver}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Driver:</span>
+                <span className="font-medium text-white">{booking.driver}</span>
               </div>
               {booking.sharedWith > 1 && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Shared with:</span>
-                  <span className="font-medium">{booking.sharedWith - 1} others</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400">Shared with:</span>
+                  <span className="font-medium text-white">{booking.sharedWith - 1} others</span>
                 </div>
               )}
             </div>

@@ -183,9 +183,8 @@ export function AIVoiceAssistant({ language }: AIVoiceAssistantProps) {
             {conversation.map((msg, index) => (
               <div
                 key={index}
-                className={`p-2 rounded-lg text-sm ${
-                  msg.type === "user" ? "bg-blue-100 text-blue-800 ml-4" : "bg-gray-100 text-gray-800 mr-4"
-                }`}
+                className={`p-2 rounded-lg text-sm ${msg.type === "user" ? "bg-blue-100 text-blue-800 ml-4" : "bg-gray-100 text-gray-800 mr-4"
+                  }`}
               >
                 {msg.message}
               </div>

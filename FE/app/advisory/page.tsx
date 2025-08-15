@@ -21,6 +21,194 @@ import {
   Send,
 } from "lucide-react"
 
+// Translation function
+const getTranslation = (key: string, language: string): string => {
+  const translations: Record<string, Record<string, string>> = {
+    // English translations
+    en: {
+      ai_farm_advisor: "AI Farm Advisor",
+      weather: "Weather",
+      crops: "Crops",
+      pests: "Pests",
+      ai_chat: "AI Chat",
+      current_weather: "Current Weather",
+      temperature: "Temperature",
+      humidity: "Humidity",
+      wind: "Wind",
+      rainfall: "Rainfall",
+      weather_alerts: "Weather Alerts",
+      forecast: "5-Day Forecast",
+      crop_recommendations: "Crop Recommendations",
+      high: "High",
+      medium: "Medium",
+      demand: "Demand",
+      planting_time: "Planting Time",
+      harvest_time: "Harvest Time",
+      farming_tips: "Farming Tips",
+      market_price: "Market Price",
+      pest_disease_guide: "Pest & Disease Guide",
+      affects: "Affects",
+      severity: "Severity",
+      symptoms: "Symptoms",
+      treatment: "Treatment",
+      prevention: "Prevention",
+      ai_farming_assistant: "AI Farming Assistant",
+      ai_chat_welcome: "Ask me anything about farming!",
+      ask_farming_question: "Ask a farming question...",
+      weather_advice: "Weather Advice",
+      planting_advice: "Planting Advice",
+      pest_help: "Pest Help",
+      market_advice: "Market Advice",
+      quick_weather: "What's the weather like?",
+      quick_planting: "When should I plant?",
+      quick_pest: "Help with pests",
+      quick_market: "Market prices",
+      ai_weather_response: "Based on current weather conditions, I recommend checking soil moisture and adjusting irrigation accordingly.",
+      ai_crop_response: "For optimal crop growth, consider soil preparation, proper spacing, and seasonal timing for your region.",
+      ai_pest_response: "Early detection is key for pest management. Regular monitoring and integrated pest management practices are recommended.",
+      ai_market_response: "Market prices fluctuate based on supply and demand. Consider diversifying crops and timing your harvest strategically.",
+      ai_general_response: "I'm here to help with all your farming questions. Feel free to ask about weather, crops, pests, or market advice."
+    },
+    // Yoruba translations
+    yo: {
+      ai_farm_advisor: "Olugbani Oko AI",
+      weather: "Oju Ojo",
+      crops: "Irugbin",
+      pests: "Kokoro",
+      ai_chat: "Ibaraenisoro AI",
+      current_weather: "Oju Ojo Loni",
+      temperature: "Iwon Otutu",
+      humidity: "Omi Afefe",
+      wind: "Afefe",
+      rainfall: "Ojo",
+      weather_alerts: "Ikilowo Oju Ojo",
+      forecast: "Asotele Ojo Marun",
+      crop_recommendations: "Imoran Irugbin",
+      high: "Giga",
+      medium: "Aarin",
+      demand: "Ibeere",
+      planting_time: "Akoko Igbin",
+      harvest_time: "Akoko Ikore",
+      farming_tips: "Imoran Oko",
+      market_price: "Owo Oja",
+      pest_disease_guide: "Itosona Kokoro ati Arun",
+      affects: "O kan",
+      severity: "Iwon Buruju",
+      symptoms: "Ami Aisan",
+      treatment: "Itoju",
+      prevention: "Idena",
+      ai_farming_assistant: "Oluranlowo Oko AI",
+      ai_chat_welcome: "Beere ohunkohun nipa oko!",
+      ask_farming_question: "Beere ibeere oko...",
+      weather_advice: "Imoran Oju Ojo",
+      planting_advice: "Imoran Igbin",
+      pest_help: "Iranlowo Kokoro",
+      market_advice: "Imoran Oja",
+      quick_weather: "Bawo ni oju ojo se ri?",
+      quick_planting: "Igba wo ni ki n gbin?",
+      quick_pest: "Iranlowo pelu kokoro",
+      quick_market: "Owo oja",
+      ai_weather_response: "Nitori ipo oju ojo loni, mo daba ki o wo omi ile ki o si tun omi rin to.",
+      ai_crop_response: "Fun idagbasoke irugbin to dara, ro nipa igbaradi ile, ipin to tọ, ati akoko asiko fun agbegbe yin.",
+      ai_pest_response: "Wiwa ni kutukutu ni kokoro pataki fun isakoso kokoro. Abojuto deede ati awon iwa isakoso kokoro ti a so po ni a gba.",
+      ai_market_response: "Awon idiyele oja n yipada nitori ipese ati ibeere. Ro nipa yiyato irugbin ati akoko ikore yin ni ọgbọn.",
+      ai_general_response: "Mo wa nibi lati ran yin lowo pelu gbogbo awon ibeere oko yin. E ma beere nipa oju ojo, irugbin, kokoro, tabi imoran oja."
+    },
+    // Hausa translations
+    ha: {
+      ai_farm_advisor: "Mai Ba da Shawara na AI",
+      weather: "Yanayi",
+      crops: "Amfani",
+      pests: "Kwari",
+      ai_chat: "Hira da AI",
+      current_weather: "Yanayin Yanzu",
+      temperature: "Zafin Jiki",
+      humidity: "Danshi",
+      wind: "Iska",
+      rainfall: "Ruwan Sama",
+      weather_alerts: "Sanarwar Yanayi",
+      forecast: "Hasashen Kwanaki Biyar",
+      crop_recommendations: "Shawarar Amfani",
+      high: "Babba",
+      medium: "Matsakaici",
+      demand: "Bukatar",
+      planting_time: "Lokacin Shuki",
+      harvest_time: "Lokacin Girbi",
+      farming_tips: "Shawarar Noma",
+      market_price: "Farashin Kasuwa",
+      pest_disease_guide: "Jagoran Kwari da Cututtuka",
+      affects: "Ya shafa",
+      severity: "Tsanani",
+      symptoms: "Alamomi",
+      treatment: "Magani",
+      prevention: "Rigakafi",
+      ai_farming_assistant: "Mataimakin Noma na AI",
+      ai_chat_welcome: "Tambaye ni komai game da noma!",
+      ask_farming_question: "Yi tambayar noma...",
+      weather_advice: "Shawarar Yanayi",
+      planting_advice: "Shawarar Shuki",
+      pest_help: "Taimako da Kwari",
+      market_advice: "Shawarar Kasuwa",
+      quick_weather: "Yaya yanayi yake?",
+      quick_planting: "Yaushe zan shuka?",
+      quick_pest: "Taimako da kwari",
+      quick_market: "Farashin kasuwa",
+      ai_weather_response: "Dangane da yanayin yanzu, ina ba da shawarar duba danshin ƙasa da daidaita ban ruwa daidai.",
+      ai_crop_response: "Don ingantaccen ci gaban amfani, yi la'akari da shirye-shiryen ƙasa, rarrabuwa mai dacewa, da lokacin yanayi na yankinku.",
+      ai_pest_response: "Gano da wuri shine mabuɗin sarrafa kwari. Ana ba da shawarar sa ido akai-akai da haɗaɗɗun hanyoyin sarrafa kwari.",
+      ai_market_response: "Farashin kasuwa yana canzawa dangane da wadata da buƙata. Yi la'akari da bambanta amfani da lokacin girbi da dabara.",
+      ai_general_response: "Ina nan don in taimake ku da duk tambayoyinku na noma. Jin daɗin tambaya game da yanayi, amfani, kwari, ko shawarar kasuwa."
+    },
+    // Igbo translations
+    ig: {
+      ai_farm_advisor: "Onye Ndụmọdụ Ugbo AI",
+      weather: "Ihu Igwe",
+      crops: "Ihe Ọkụkụ",
+      pests: "Ụmụ Ahụhụ",
+      ai_chat: "Mkparịta Ụka AI",
+      current_weather: "Ihu Igwe Ugbu a",
+      temperature: "Okpomọkụ",
+      humidity: "Iru Mmiri",
+      wind: "Ifufe",
+      rainfall: "Mmiri Ozuzo",
+      weather_alerts: "Ọkwa Ihu Igwe",
+      forecast: "Amụma Ụbọchị Ise",
+      crop_recommendations: "Ndụmọdụ Ihe Ọkụkụ",
+      high: "Elu",
+      medium: "Etiti",
+      demand: "Mkpa",
+      planting_time: "Oge Ịkụ",
+      harvest_time: "Oge Owuwe",
+      farming_tips: "Ndụmọdụ Ugbo",
+      market_price: "Ọnụ Ahịa",
+      pest_disease_guide: "Nduzi Ụmụ Ahụhụ na Ọrịa",
+      affects: "Na-emetụta",
+      severity: "Oke",
+      symptoms: "Ihe Ịrịba Ama",
+      treatment: "Ọgwụgwọ",
+      prevention: "Mgbochi",
+      ai_farming_assistant: "Onye Inyeaka Ugbo AI",
+      ai_chat_welcome: "Jụọ m ihe ọ bụla gbasara ugbo!",
+      ask_farming_question: "Jụọ ajụjụ ugbo...",
+      weather_advice: "Ndụmọdụ Ihu Igwe",
+      planting_advice: "Ndụmọdụ Ịkụ Ihe",
+      pest_help: "Enyemaka Ụmụ Ahụhụ",
+      market_advice: "Ndụmọdụ Ahịa",
+      quick_weather: "Kedu ka ihu igwe dị?",
+      quick_planting: "Olee mgbe m ga-akụ?",
+      quick_pest: "Enyemaka na ụmụ ahụhụ",
+      quick_market: "Ọnụ ahịa",
+      ai_weather_response: "Dabere na ọnọdụ ihu igwe ugbu a, ana m akwado ịlele mmiri ala ma hazie mmiri ozuzo kwesịrị ekwesị.",
+      ai_crop_response: "Maka uto ihe ọkụkụ kacha mma, tụlee nkwadebe ala, nkewa kwesịrị ekwesị, na oge oge maka mpaghara gị.",
+      ai_pest_response: "Nchọpụta n'oge bụ isi ihe maka njikwa ụmụ ahụhụ. A na-akwado nlekota mgbe niile na omume njikwa ụmụ ahụhụ jikọtara ọnụ.",
+      ai_market_response: "Ọnụ ahịa na-agbanwe dabere na ọnọdụ na mkpa. Tụlee ịgbasawanye ihe ọkụkụ na oge owuwe gị nke ọma.",
+      ai_general_response: "Anọ m ebe a inyere gị aka na ajụjụ ugbo gị niile. Nwee obi ụtọ ịjụ gbasara ihu igwe, ihe ọkụkụ, ụmụ ahụhụ, ma ọ bụ ndụmọdụ ahịa."
+    }
+  }
+
+  return translations[language]?.[key] || translations.en[key] || key
+}
+
 export default function AdvisoryPage() {
   const [selectedLanguage, setSelectedLanguage] = useState("en")
   const [activeTab, setActiveTab] = useState("weather")
@@ -194,560 +382,415 @@ export default function AdvisoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => (window.location.href = "/dashboard")} className="mr-2">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center">
-            <MessageSquare className="w-6 h-6 text-white" />
+    <div className="mt-8 min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
+
+      <div className="relative z-10 p-4 max-w-7xl mx-auto">
+        {/* Enhanced Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => (window.location.href = "/dashboard")} 
+              className="mr-2 text-cyan-100 hover:bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <div className="w-14 h-14 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/25 border border-cyan-400/30">
+              <MessageSquare className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent">
+                {getTranslation("ai_farm_advisor", selectedLanguage)}
+              </h1>
+              <p className="text-cyan-200/70 text-sm">Powered by Advanced AI Technology</p>
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-teal-800">{getTranslation("ai_farm_advisor", selectedLanguage)}</h1>
+          <div className="backdrop-blur-sm bg-slate-800/50 rounded-lg border border-cyan-500/30 p-2">
+            <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={setSelectedLanguage} />
+          </div>
         </div>
-        <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={setSelectedLanguage} />
-      </div>
 
-      {/* Tab Navigation */}
-      <div className="flex mb-6 bg-white rounded-lg p-1 border-2 border-gray-200 overflow-x-auto">
-        <Button
-          variant={activeTab === "weather" ? "default" : "ghost"}
-          className="flex-1 min-w-fit"
-          onClick={() => setActiveTab("weather")}
-        >
-          <Cloud className="w-4 h-4 mr-2" />
-          {getTranslation("weather", selectedLanguage)}
-        </Button>
-        <Button
-          variant={activeTab === "crops" ? "default" : "ghost"}
-          className="flex-1 min-w-fit"
-          onClick={() => setActiveTab("crops")}
-        >
-          <Sprout className="w-4 h-4 mr-2" />
-          {getTranslation("crops", selectedLanguage)}
-        </Button>
-        <Button
-          variant={activeTab === "pests" ? "default" : "ghost"}
-          className="flex-1 min-w-fit"
-          onClick={() => setActiveTab("pests")}
-        >
-          <Bug className="w-4 h-4 mr-2" />
-          {getTranslation("pests", selectedLanguage)}
-        </Button>
-        <Button
-          variant={activeTab === "chat" ? "default" : "ghost"}
-          className="flex-1 min-w-fit"
-          onClick={() => setActiveTab("chat")}
-        >
-          <MessageSquare className="w-4 h-4 mr-2" />
-          {getTranslation("ai_chat", selectedLanguage)}
-        </Button>
-      </div>
-
-      {/* Weather Tab */}
-      {activeTab === "weather" && (
-        <div className="space-y-6">
-          {/* Current Weather */}
-          <Card className="border-2 border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-800 flex items-center gap-2">
-                <Thermometer className="w-5 h-5" />
-                {getTranslation("current_weather", selectedLanguage)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center">
-                  {getWeatherIcon(weatherData.current.condition)}
-                  <p className="text-3xl font-bold text-blue-600 mt-2">{weatherData.current.temperature}°C</p>
-                  <p className="text-sm text-gray-600">{getTranslation("temperature", selectedLanguage)}</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">{getTranslation("humidity", selectedLanguage)}:</span>
-                    <span className="font-medium">{weatherData.current.humidity}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">{getTranslation("wind", selectedLanguage)}:</span>
-                    <span className="font-medium">{weatherData.current.windSpeed} km/h</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">{getTranslation("rainfall", selectedLanguage)}:</span>
-                    <span className="font-medium">{weatherData.current.rainfall} mm</span>
-                  </div>
-                </div>
-              </div>
-              <VoiceButton
-                text={`${getTranslation("current_weather", selectedLanguage)}: ${weatherData.current.temperature} degrees celsius, ${weatherData.current.humidity} percent humidity`}
-                language={selectedLanguage}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Weather Alerts */}
-          <Card className="border-2 border-orange-200">
-            <CardHeader>
-              <CardTitle className="text-orange-800 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5" />
-                {getTranslation("weather_alerts", selectedLanguage)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {weatherData.alerts.map((alert, index) => (
-                <div
-                  key={index}
-                  className={`p-3 rounded-lg border-l-4 ${
-                    alert.priority === "high" ? "border-red-500 bg-red-50" : "border-blue-500 bg-blue-50"
-                  }`}
-                >
-                  <h4 className="font-semibold text-gray-800">{alert.title}</h4>
-                  <p className="text-sm text-gray-600 mt-1">{alert.message}</p>
-                  <VoiceButton text={`${alert.title}. ${alert.message}`} language={selectedLanguage} />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* 5-Day Forecast */}
-          <Card className="border-2 border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-gray-800">{getTranslation("forecast", selectedLanguage)}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-5 gap-2">
-                {weatherData.forecast.map((day, index) => (
-                  <div key={index} className="text-center p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs font-medium text-gray-600 mb-1">{day.day}</p>
-                    {getWeatherIcon(day.condition)}
-                    <p className="text-sm font-bold text-gray-800 mt-1">{day.temp}</p>
-                    <p className="text-xs text-blue-600">{day.rain}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        {/* Enhanced Tab Navigation */}
+        <div className="flex mb-8 bg-slate-900/60 backdrop-blur-md rounded-xl p-2 border border-cyan-500/20 shadow-lg shadow-cyan-500/10 overflow-x-auto">
+          <Button
+            variant={activeTab === "weather" ? "default" : "ghost"}
+            className={`flex-1 min-w-fit transition-all duration-300 ${
+              activeTab === "weather" 
+                ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30 border border-cyan-400/50" 
+                : "text-cyan-200 hover:text-white hover:bg-cyan-500/20 border border-transparent hover:border-cyan-500/30"
+            }`}
+            onClick={() => setActiveTab("weather")}
+          >
+            <Cloud className="w-4 h-4 mr-2" />
+            {getTranslation("weather", selectedLanguage)}
+          </Button>
+          <Button
+            variant={activeTab === "crops" ? "default" : "ghost"}
+            className={`flex-1 min-w-fit transition-all duration-300 ${
+              activeTab === "crops" 
+                ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg shadow-emerald-500/30 border border-emerald-400/50" 
+                : "text-cyan-200 hover:text-white hover:bg-emerald-500/20 border border-transparent hover:border-emerald-500/30"
+            }`}
+            onClick={() => setActiveTab("crops")}
+          >
+            <Sprout className="w-4 h-4 mr-2" />
+            {getTranslation("crops", selectedLanguage)}
+          </Button>
+          <Button
+            variant={activeTab === "pests" ? "default" : "ghost"}
+            className={`flex-1 min-w-fit transition-all duration-300 ${
+              activeTab === "pests" 
+                ? "bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-lg shadow-red-500/30 border border-red-400/50" 
+                : "text-cyan-200 hover:text-white hover:bg-red-500/20 border border-transparent hover:border-red-500/30"
+            }`}
+            onClick={() => setActiveTab("pests")}
+          >
+            <Bug className="w-4 h-4 mr-2" />
+            {getTranslation("pests", selectedLanguage)}
+          </Button>
+          <Button
+            variant={activeTab === "chat" ? "default" : "ghost"}
+            className={`flex-1 min-w-fit transition-all duration-300 ${
+              activeTab === "chat" 
+                ? "bg-gradient-to-r from-purple-500 to-fuchsia-600 text-white shadow-lg shadow-purple-500/30 border border-purple-400/50" 
+                : "text-cyan-200 hover:text-white hover:bg-purple-500/20 border border-transparent hover:border-purple-500/30"
+            }`}
+            onClick={() => setActiveTab("chat")}
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            {getTranslation("ai_chat", selectedLanguage)}
+          </Button>
         </div>
-      )}
 
-      {/* Crops Tab */}
-      {activeTab === "crops" && (
-        <div className="space-y-6">
-          <Card className="border-2 border-green-200">
-            <CardHeader>
-              <CardTitle className="text-green-800 flex items-center gap-2">
-                <Sprout className="w-5 h-5" />
-                {getTranslation("crop_recommendations", selectedLanguage)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {cropRecommendations.map((crop, index) => (
-                <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-semibold text-gray-800 text-lg">{crop.crop}</h3>
-                      <p className="text-sm text-gray-600">{crop.season}</p>
-                    </div>
-                    <Badge
-                      className={`${crop.demand === "high" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
-                    >
-                      {getTranslation(crop.demand, selectedLanguage)} {getTranslation("demand", selectedLanguage)}
-                    </Badge>
+        {/* Weather Tab */}
+        {activeTab === "weather" && (
+          <div className="space-y-6">
+            {/* Current Weather */}
+            <Card className="border border-cyan-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-cyan-500/10 hover:shadow-cyan-500/20 transition-all duration-300">
+              <CardHeader className="border-b border-cyan-500/20">
+                <CardTitle className="text-cyan-300 flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-cyan-500/20 rounded-lg">
+                    <Thermometer className="w-6 h-6" />
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-3">
-                    <div>
-                      <p className="text-gray-600">{getTranslation("planting_time", selectedLanguage)}:</p>
-                      <p className="font-medium">{crop.plantingTime}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600">{getTranslation("harvest_time", selectedLanguage)}:</p>
-                      <p className="font-medium">{crop.harvestTime}</p>
-                    </div>
+                  {getTranslation("current_weather", selectedLanguage)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  <div className="text-center p-4 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl border border-cyan-500/20">
+                    {getWeatherIcon(weatherData.current.condition)}
+                    <p className="text-4xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent mt-3">
+                      {weatherData.current.temperature}°C
+                    </p>
+                    <p className="text-sm text-cyan-200/70 mt-1">{getTranslation("temperature", selectedLanguage)}</p>
                   </div>
-
-                  <div className="mb-3">
-                    <p className="text-gray-600 text-sm mb-1">{getTranslation("farming_tips", selectedLanguage)}:</p>
-                    <p className="text-gray-800 text-sm">{crop.tips}</p>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-gray-600 text-sm">{getTranslation("market_price", selectedLanguage)}:</p>
-                      <p className="text-lg font-bold text-green-600">{crop.marketPrice}</p>
+                  <div className="space-y-3">
+                    <div className="flex justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                      <span className="text-cyan-200/70">{getTranslation("humidity", selectedLanguage)}:</span>
+                      <span className="font-bold text-white">{weatherData.current.humidity}%</span>
                     </div>
-                    <VoiceButton
-                      text={`${crop.crop}. ${getTranslation("planting_time", selectedLanguage)}: ${crop.plantingTime}. ${crop.tips}`}
-                      language={selectedLanguage}
-                    />
+                    <div className="flex justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                      <span className="text-cyan-200/70">{getTranslation("wind", selectedLanguage)}:</span>
+                      <span className="font-bold text-white">{weatherData.current.windSpeed} km/h</span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                      <span className="text-cyan-200/70">{getTranslation("rainfall", selectedLanguage)}:</span>
+                      <span className="font-bold text-white">{weatherData.current.rainfall} mm</span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      )}
+                <VoiceButton
+                  text={`${getTranslation("current_weather", selectedLanguage)}: ${weatherData.current.temperature} degrees celsius, ${weatherData.current.humidity} percent humidity`}
+                  language={selectedLanguage}
+                />
+              </CardContent>
+            </Card>
 
-      {/* Pests Tab */}
-      {activeTab === "pests" && (
-        <div className="space-y-6">
-          <Card className="border-2 border-red-200">
-            <CardHeader>
-              <CardTitle className="text-red-800 flex items-center gap-2">
-                <Bug className="w-5 h-5" />
-                {getTranslation("pest_disease_guide", selectedLanguage)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {pestDiseases.map((pest, index) => (
-                <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-semibold text-gray-800 text-lg">{pest.name}</h3>
-                      <p className="text-sm text-gray-600">
-                        {getTranslation("affects", selectedLanguage)}: {pest.crop}
-                      </p>
-                    </div>
-                    <Badge
-                      className={`${pest.severity === "high" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}
-                    >
-                      {getTranslation(pest.severity, selectedLanguage)} {getTranslation("severity", selectedLanguage)}
-                    </Badge>
+            {/* Weather Alerts */}
+            <Card className="border border-orange-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-orange-500/10">
+              <CardHeader className="border-b border-orange-500/20">
+                <CardTitle className="text-orange-300 flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-orange-500/20 rounded-lg">
+                    <AlertTriangle className="w-6 h-6" />
                   </div>
-
-                  <div className="space-y-3 text-sm">
-                    <div>
-                      <p className="text-gray-600 font-medium">{getTranslation("symptoms", selectedLanguage)}:</p>
-                      <p className="text-gray-800">{pest.symptoms}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 font-medium">{getTranslation("treatment", selectedLanguage)}:</p>
-                      <p className="text-gray-800">{pest.treatment}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 font-medium">{getTranslation("prevention", selectedLanguage)}:</p>
-                      <p className="text-gray-800">{pest.prevention}</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <VoiceButton
-                      text={`${pest.name}. ${getTranslation("symptoms", selectedLanguage)}: ${pest.symptoms}. ${getTranslation("treatment", selectedLanguage)}: ${pest.treatment}`}
-                      language={selectedLanguage}
-                    />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* AI Chat Tab */}
-      {activeTab === "chat" && (
-        <div className="space-y-6">
-          <Card className="border-2 border-teal-200">
-            <CardHeader>
-              <CardTitle className="text-teal-800 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5" />
-                {getTranslation("ai_farming_assistant", selectedLanguage)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Chat Messages */}
-              <div className="h-64 overflow-y-auto mb-4 space-y-3 p-3 bg-gray-50 rounded-lg">
-                {chatMessages.length === 0 && (
-                  <div className="text-center text-gray-500 py-8">
-                    <MessageSquare className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                    <p>{getTranslation("ai_chat_welcome", selectedLanguage)}</p>
-                  </div>
-                )}
-                {chatMessages.map((msg, index) => (
+                  {getTranslation("weather_alerts", selectedLanguage)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-6">
+                {weatherData.alerts.map((alert, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded-lg max-w-[80%] ${
-                      msg.type === "user"
-                        ? "bg-teal-100 text-teal-800 ml-auto"
-                        : "bg-white text-gray-800 border border-gray-200"
+                    className={`p-4 rounded-xl border-l-4 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] ${
+                      alert.priority === "high" 
+                        ? "border-red-400 bg-gradient-to-r from-red-500/20 to-red-600/10 shadow-lg shadow-red-500/20" 
+                        : "border-blue-400 bg-gradient-to-r from-blue-500/20 to-blue-600/10 shadow-lg shadow-blue-500/20"
                     }`}
                   >
-                    <p className="text-sm">{msg.message}</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    </p>
+                    <h4 className="font-bold text-white text-lg mb-2">{alert.title}</h4>
+                    <p className="text-cyan-100/80 mb-3">{alert.message}</p>
+                    <VoiceButton text={`${alert.title}. ${alert.message}`} language={selectedLanguage} />
                   </div>
                 ))}
-              </div>
+              </CardContent>
+            </Card>
 
-              {/* Chat Input */}
-              <div className="flex gap-2">
-                <Input
-                  placeholder={getTranslation("ask_farming_question", selectedLanguage)}
-                  value={currentMessage}
-                  onChange={(e) => setCurrentMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="flex-1"
-                />
-                <Button onClick={handleSendMessage} className="bg-teal-600 hover:bg-teal-700">
-                  <Send className="w-4 h-4" />
-                </Button>
-              </div>
+            {/* 5-Day Forecast */}
+            <Card className="border border-cyan-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-cyan-500/10">
+              <CardHeader className="border-b border-cyan-500/20">
+                <CardTitle className="text-cyan-300 text-xl">{getTranslation("forecast", selectedLanguage)}</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-5 gap-3">
+                  {weatherData.forecast.map((day, index) => (
+                    <div key={index} className="text-center p-4 bg-gradient-to-br from-slate-800/60 to-slate-900/60 rounded-xl border border-slate-700/50 backdrop-blur-sm hover:border-cyan-500/30 transition-all duration-300">
+                      <p className="text-sm font-bold text-cyan-200/70 mb-2">{day.day}</p>
+                      {getWeatherIcon(day.condition)}
+                      <p className="text-lg font-bold text-white mt-2">{day.temp}</p>
+                      <p className="text-xs text-blue-300 mt-1">{day.rain}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-              {/* Quick Questions */}
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentMessage(getTranslation("quick_weather", selectedLanguage))}
-                  className="text-xs"
-                >
-                  {getTranslation("weather_advice", selectedLanguage)}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentMessage(getTranslation("quick_planting", selectedLanguage))}
-                  className="text-xs"
-                >
-                  {getTranslation("planting_advice", selectedLanguage)}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentMessage(getTranslation("quick_pest", selectedLanguage))}
-                  className="text-xs"
-                >
-                  {getTranslation("pest_help", selectedLanguage)}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentMessage(getTranslation("quick_market", selectedLanguage))}
-                  className="text-xs"
-                >
-                  {getTranslation("market_advice", selectedLanguage)}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+        {/* Crops Tab */}
+        {activeTab === "crops" && (
+          <div className="space-y-6">
+            <Card className="border border-emerald-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-emerald-500/10">
+              <CardHeader className="border-b border-emerald-500/20">
+                <CardTitle className="text-emerald-300 flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-emerald-500/20 rounded-lg">
+                    <Sprout className="w-6 h-6" />
+                  </div>
+                  {getTranslation("crop_recommendations", selectedLanguage)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6 pt-6">
+                {cropRecommendations.map((crop, index) => (
+                  <div key={index} className="p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 rounded-xl border border-slate-700/50 backdrop-blur-sm hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="font-bold text-white text-xl mb-1">{crop.crop}</h3>
+                        <p className="text-emerald-200/70">{crop.season}</p>
+                      </div>
+                      <Badge
+                        className={`px-3 py-1 font-semibold ${
+                          crop.demand === "high" 
+                            ? "bg-gradient-to-r from-emerald-500/30 to-green-500/30 text-emerald-200 border border-emerald-400/50" 
+                            : "bg-gradient-to-r from-yellow-500/30 to-orange-500/30 text-yellow-200 border border-yellow-400/50"
+                        }`}
+                      >
+                        {getTranslation(crop.demand, selectedLanguage)} {getTranslation("demand", selectedLanguage)}
+                      </Badge>
+                    </div>
 
-      {/* AI Voice Assistant */}
-      <AIVoiceAssistant language={selectedLanguage} />
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                        <p className="text-cyan-200/70 text-sm mb-1">{getTranslation("planting_time", selectedLanguage)}:</p>
+                        <p className="font-bold text-white">{crop.plantingTime}</p>
+                      </div>
+                      <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                        <p className="text-cyan-200/70 text-sm mb-1">{getTranslation("harvest_time", selectedLanguage)}:</p>
+                        <p className="font-bold text-white">{crop.harvestTime}</p>
+                      </div>
+                    </div>
+
+                    <div className="mb-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                      <p className="text-cyan-200/70 text-sm mb-2">{getTranslation("farming_tips", selectedLanguage)}:</p>
+                      <p className="text-cyan-100/80">{crop.tips}</p>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-cyan-200/70 text-sm">{getTranslation("market_price", selectedLanguage)}:</p>
+                        <p className="text-2xl font-bold bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">{crop.marketPrice}</p>
+                      </div>
+                      <VoiceButton
+                        text={`${crop.crop}. ${getTranslation("planting_time", selectedLanguage)}: ${crop.plantingTime}. ${crop.tips}`}
+                        language={selectedLanguage}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Pests Tab */}
+        {activeTab === "pests" && (
+          <div className="space-y-6">
+            <Card className="border border-red-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-red-500/10">
+              <CardHeader className="border-b border-red-500/20">
+                <CardTitle className="text-red-300 flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-red-500/20 rounded-lg">
+                    <Bug className="w-6 h-6" />
+                  </div>
+                  {getTranslation("pest_disease_guide", selectedLanguage)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6 pt-6">
+                {pestDiseases.map((pest, index) => (
+                  <div key={index} className="p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 rounded-xl border border-slate-700/50 backdrop-blur-sm hover:border-red-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="font-bold text-white text-xl mb-1">{pest.name}</h3>
+                        <p className="text-red-200/70">
+                          {getTranslation("affects", selectedLanguage)}: {pest.crop}
+                        </p>
+                      </div>
+                      <Badge
+                        className={`px-3 py-1 font-semibold ${
+                          pest.severity === "high" 
+                            ? "bg-gradient-to-r from-red-500/30 to-pink-500/30 text-red-200 border border-red-400/50" 
+                            : "bg-gradient-to-r from-yellow-500/30 to-orange-500/30 text-yellow-200 border border-yellow-400/50"
+                        }`}
+                      >
+                        {getTranslation(pest.severity, selectedLanguage)} {getTranslation("severity", selectedLanguage)}
+                      </Badge>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                        <p className="text-cyan-200/70 font-bold text-sm mb-2">{getTranslation("symptoms", selectedLanguage)}:</p>
+                        <p className="text-cyan-100/80">{pest.symptoms}</p>
+                      </div>
+                      <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                        <p className="text-cyan-200/70 font-bold text-sm mb-2">{getTranslation("treatment", selectedLanguage)}:</p>
+                        <p className="text-cyan-100/80">{pest.treatment}</p>
+                      </div>
+                      <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                        <p className="text-cyan-200/70 font-bold text-sm mb-2">{getTranslation("prevention", selectedLanguage)}:</p>
+                        <p className="text-cyan-100/80">{pest.prevention}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-slate-700/50">
+                      <VoiceButton
+                        text={`${pest.name}. ${getTranslation("symptoms", selectedLanguage)}: ${pest.symptoms}. ${getTranslation("treatment", selectedLanguage)}: ${pest.treatment}`}
+                        language={selectedLanguage}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* AI Chat Tab */}
+        {activeTab === "chat" && (
+          <div className="space-y-6">
+            <Card className="border border-purple-500/30 bg-slate-900/70 backdrop-blur-md shadow-xl shadow-purple-500/10">
+              <CardHeader className="border-b border-purple-500/20">
+                <CardTitle className="text-purple-300 flex items-center gap-3 text-xl">
+                  <div className="p-2 bg-purple-500/20 rounded-lg">
+                    <MessageSquare className="w-6 h-6" />
+                  </div>
+                  {getTranslation("ai_farming_assistant", selectedLanguage)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                {/* Chat Messages */}
+                <div className="h-80 overflow-y-auto mb-6 space-y-4 p-4 bg-gradient-to-br from-slate-950/80 to-slate-900/80 rounded-xl border border-slate-700/50 backdrop-blur-sm">
+                  {chatMessages.length === 0 && (
+                    <div className="text-center text-cyan-200/60 py-12">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-full flex items-center justify-center">
+                        <MessageSquare className="w-8 h-8 text-purple-300" />
+                      </div>
+                      <p className="text-lg">{getTranslation("ai_chat_welcome", selectedLanguage)}</p>
+                    </div>
+                  )}
+                  {chatMessages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`p-4 rounded-xl max-w-[85%] backdrop-blur-sm transition-all duration-300 ${
+                        msg.type === "user"
+                          ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-100 ml-auto border border-cyan-400/30 shadow-lg shadow-cyan-500/20"
+                          : "bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 text-purple-100 border border-purple-400/30 shadow-lg shadow-purple-500/20"
+                      }`}
+                    >
+                      <p className="text-sm leading-relaxed">{msg.message}</p>
+                      <p className="text-xs text-cyan-200/50 mt-2">
+                        {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Chat Input */}
+                <div className="flex gap-3 mb-6">
+                  <Input
+                    placeholder={getTranslation("ask_farming_question", selectedLanguage)}
+                    value={currentMessage}
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                    className="flex-1 bg-slate-800/60 border-slate-600/50 text-white placeholder-cyan-200/50 focus:border-cyan-400/50 focus:ring-cyan-400/20 backdrop-blur-sm"
+                  />
+                  <Button 
+                    onClick={handleSendMessage} 
+                    className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 shadow-lg shadow-cyan-500/25 border border-cyan-400/30 transition-all duration-300"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+
+                {/* Quick Questions */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentMessage(getTranslation("quick_weather", selectedLanguage))}
+                    className="text-sm bg-slate-800/50 border-cyan-500/30 text-cyan-200 hover:bg-cyan-500/20 hover:text-white hover:border-cyan-400/50 backdrop-blur-sm transition-all duration-300"
+                  >
+                    {getTranslation("weather_advice", selectedLanguage)}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentMessage(getTranslation("quick_planting", selectedLanguage))}
+                    className="text-sm bg-slate-800/50 border-emerald-500/30 text-emerald-200 hover:bg-emerald-500/20 hover:text-white hover:border-emerald-400/50 backdrop-blur-sm transition-all duration-300"
+                  >
+                    {getTranslation("planting_advice", selectedLanguage)}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentMessage(getTranslation("quick_pest", selectedLanguage))}
+                    className="text-sm bg-slate-800/50 border-red-500/30 text-red-200 hover:bg-red-500/20 hover:text-white hover:border-red-400/50 backdrop-blur-sm transition-all duration-300"
+                  >
+                    {getTranslation("pest_help", selectedLanguage)}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentMessage(getTranslation("quick_market", selectedLanguage))}
+                    className="text-sm bg-slate-800/50 border-purple-500/30 text-purple-200 hover:bg-purple-500/20 hover:text-white hover:border-purple-400/50 backdrop-blur-sm transition-all duration-300"
+                  >
+                    {getTranslation("market_advice", selectedLanguage)}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* AI Voice Assistant */}
+        <AIVoiceAssistant language={selectedLanguage} />
+      </div>
     </div>
-  )
-}
-
-function getTranslation(key: string, language: string): string {
-  const translations = {
-    en: {
-      ai_farm_advisor: "AI Farm Advisor",
-      weather: "Weather",
-      crops: "Crops",
-      pests: "Pests",
-      ai_chat: "AI Chat",
-      current_weather: "Current Weather",
-      temperature: "Temperature",
-      humidity: "Humidity",
-      wind: "Wind Speed",
-      rainfall: "Rainfall",
-      weather_alerts: "Weather Alerts",
-      forecast: "5-Day Forecast",
-      crop_recommendations: "Crop Recommendations",
-      demand: "Demand",
-      high: "High",
-      medium: "Medium",
-      low: "Low",
-      planting_time: "Planting Time",
-      harvest_time: "Harvest Time",
-      farming_tips: "Farming Tips",
-      market_price: "Market Price",
-      pest_disease_guide: "Pest & Disease Guide",
-      affects: "Affects",
-      severity: "Severity",
-      symptoms: "Symptoms",
-      treatment: "Treatment",
-      prevention: "Prevention",
-      ai_farming_assistant: "AI Farming Assistant",
-      ai_chat_welcome: "Ask me anything about farming! I can help with weather, crops, pests, and market advice.",
-      ask_farming_question: "Ask a farming question...",
-      weather_advice: "Weather Advice",
-      planting_advice: "Planting Advice",
-      pest_help: "Pest Help",
-      market_advice: "Market Advice",
-      quick_weather: "What's the weather forecast for farming?",
-      quick_planting: "What should I plant this season?",
-      quick_pest: "How do I identify crop pests?",
-      quick_market: "What are the best crops to sell?",
-      ai_weather_response:
-        "Based on current weather conditions, I recommend checking soil moisture before planting. The upcoming rain on Wednesday will be good for recently planted crops, but protect seedlings from heavy downpours.",
-      ai_crop_response:
-        "For this season, I recommend planting tomatoes and maize. Tomatoes have high market demand and good prices. Make sure to plant in well-drained soil and provide adequate spacing for healthy growth.",
-      ai_pest_response:
-        "Common pests this season include tomato blight and maize weevils. Look for brown spots on leaves or small holes in grains. Use organic treatments like neem oil when possible, and always practice crop rotation.",
-      ai_market_response:
-        "Current market prices show tomatoes at ₦800/kg with high demand. Cassava remains stable at ₦200/kg. Consider diversifying your crops and timing your harvest with peak demand periods.",
-      ai_general_response:
-        "I'm here to help with all your farming questions! Ask me about weather conditions, crop recommendations, pest management, or market prices. I can provide advice in your local language.",
-    },
-    yo: {
-      ai_farm_advisor: "Oluranlọwọ Oko AI",
-      weather: "Oju Ọjọ",
-      crops: "Awọn Irugbin",
-      pests: "Awọn Kokoro",
-      ai_chat: "Ibaraẹnisọrọ AI",
-      current_weather: "Oju Ọjọ Lọwọlọwọ",
-      temperature: "Iwọn Otutu",
-      humidity: "Ọriniinitutu",
-      wind: "Iyara Afẹfẹ",
-      rainfall: "Ojo",
-      weather_alerts: "Awọn Ikilọ Oju Ọjọ",
-      forecast: "Asọtẹlẹ Ọjọ Marun",
-      crop_recommendations: "Awọn Iṣeduro Irugbin",
-      demand: "Ibeere",
-      high: "Giga",
-      medium: "Aarin",
-      low: "Kekere",
-      planting_time: "Akoko Gbingbin",
-      harvest_time: "Akoko Ikore",
-      farming_tips: "Awọn Imọran Oko",
-      market_price: "Owo Ọja",
-      pest_disease_guide: "Itọsọna Kokoro ati Arun",
-      affects: "O kan",
-      severity: "Iwọn Nla",
-      symptoms: "Awọn Ami",
-      treatment: "Itọju",
-      prevention: "Idena",
-      ai_farming_assistant: "Oluranlọwọ Oko AI",
-      ai_chat_welcome:
-        "Beere ohunkohun nipa oko lọwọ mi! Mo le ran ọ lọwọ pẹlu oju ọjọ, irugbin, kokoro, ati imọran ọja.",
-      ask_farming_question: "Beere ibeere oko...",
-      weather_advice: "Imọran Oju Ọjọ",
-      planting_advice: "Imọran Gbingbin",
-      pest_help: "Iranlọwọ Kokoro",
-      market_advice: "Imọran Ọja",
-      quick_weather: "Kini asọtẹlẹ oju ọjọ fun oko?",
-      quick_planting: "Kini mo yẹ ki n gbin ni akoko yii?",
-      quick_pest: "Bawo ni mo ṣe le mọ awọn kokoro irugbin?",
-      quick_market: "Kini awọn irugbin ti o dara julọ lati ta?",
-      ai_weather_response:
-        "Ti o ba da lori ipo oju ọjọ lọwọlọwọ, mo ṣeduro ki o ṣayẹwo omi ile ṣaaju gbingbin. Ojo ti n bọ ni Ọjọrú yoo dara fun awọn irugbin ti a ṣẹṣẹ gbin, ṣugbọn daabobo awọn ọmọ irugbin lati ojo nla.",
-      ai_crop_response:
-        "Fun akoko yii, mo ṣeduro gbingbin tomati ati agbado. Tomati ni ibeere giga ati owo to dara. Rii daju pe o gbin ni ile ti o ni omi daradara ati pese aaye to peye fun idagbasoke ilera.",
-      ai_pest_response:
-        "Awọn kokoro ti o wọpọ ni akoko yii ni tomato blight ati maize weevils. Wa awọn ami dudu lori ewe tabi awọn iho kekere ninu awọn irugbin. Lo awọn itọju adayeba bi epo neem nigba ti o ṣee ṣe, ki o si ṣe yiyi irugbin nigbagbogbo.",
-      ai_market_response:
-        "Awọn owo ọja lọwọlọwọ fi han tomati ni ₦800/kg pẹlu ibeere giga. Cassava wa ni iduroṣinṣin ni ₦200/kg. Ronu lati ṣe iyatọ awọn irugbin rẹ ki o si ṣeto akoko ikore rẹ pẹlu awọn akoko ibeere giga.",
-      ai_general_response:
-        "Mo wa nibi lati ran ọ lọwọ pẹlu gbogbo awọn ibeere oko rẹ! Beere lọwọ mi nipa awọn ipo oju ọjọ, awọn iṣeduro irugbin, iṣakoso kokoro, tabi awọn owo ọja. Mo le pese imọran ni ede agbegbe rẹ.",
-    },
-    ha: {
-      ai_farm_advisor: "Mai Ba da Shawara na AI",
-      weather: "Yanayi",
-      crops: "Amfanin Gona",
-      pests: "Kwari",
-      ai_chat: "Hira da AI",
-      current_weather: "Yanayin Yanzu",
-      temperature: "Zafin Jiki",
-      humidity: "Danshi",
-      wind: "Gudun Iska",
-      rainfall: "Ruwan Sama",
-      weather_alerts: "Sanarwar Yanayi",
-      forecast: "Hasashen Kwanaki Biyar",
-      crop_recommendations: "Shawarar Amfanin Gona",
-      demand: "Bukata",
-      high: "Babba",
-      medium: "Matsakaici",
-      low: "Karami",
-      planting_time: "Lokacin Shuki",
-      harvest_time: "Lokacin Girbi",
-      farming_tips: "Shawarar Noma",
-      market_price: "Farashin Kasuwa",
-      pest_disease_guide: "Jagorar Kwari da Cututtuka",
-      affects: "Ya shafa",
-      severity: "Matsananci",
-      symptoms: "Alamomi",
-      treatment: "Magani",
-      prevention: "Rigakafi",
-      ai_farming_assistant: "Mataimakin Noma na AI",
-      ai_chat_welcome:
-        "Tambaye ni komai game da noma! Zan iya taimaka da yanayi, amfanin gona, kwari, da shawarar kasuwa.",
-      ask_farming_question: "Yi tambayar noma...",
-      weather_advice: "Shawarar Yanayi",
-      planting_advice: "Shawarar Shuki",
-      pest_help: "Taimakon Kwari",
-      market_advice: "Shawarar Kasuwa",
-      quick_weather: "Menene hasashen yanayi don noma?",
-      quick_planting: "Me zan shuka a wannan lokaci?",
-      quick_pest: "Ta yaya zan gane kwarin amfanin gona?",
-      quick_market: "Wadanne amfanin gona ne mafi kyau don sayarwa?",
-      ai_weather_response:
-        "Dangane da yanayin yanzu, ina ba da shawarar duba danshi na ƙasa kafin shuki. Ruwan sama mai zuwa a ranar Laraba zai yi kyau ga amfanin gona da aka shuka kwanan nan, amma kare ƙananan tsire-tsire daga ruwan sama mai ƙarfi.",
-      ai_crop_response:
-        "Don wannan lokaci, ina ba da shawarar shuka tumatir da masara. Tumatir yana da babban bukata da kyawawan farashi. Tabbatar da shuka a ƙasa mai kyawawan magudanar ruwa da samar da isasshen sarari don lafiyayyen girma.",
-      ai_pest_response:
-        "Kwari na yau da kullun a wannan lokaci sun haɗa da cutar tumatir da tsutsotsin masara. Nemi alamun launin ruwan kasa akan ganye ko ƙananan ramuka a cikin hatsi. Yi amfani da magungunan halitta kamar man neem lokacin da zai yiwu, kuma koyaushe yi jujjuyawar amfanin gona.",
-      ai_market_response:
-        "Farashin kasuwa na yanzu ya nuna tumatir a ₦800/kg tare da babban bukata. Rogo ya kasance a tsaye a ₦200/kg. Yi la'akari da bambanta amfanin gona da kuma daidaita lokacin girbi da lokutan babban bukata.",
-      ai_general_response:
-        "Ina nan don taimaka da duk tambayoyin noma! Tambaye ni game da yanayin yanayi, shawarar amfanin gona, sarrafa kwari, ko farashin kasuwa. Zan iya ba da shawara a harshen gida.",
-    },
-    ig: {
-      ai_farm_advisor: "Onye Ndụmọdụ Ugbo AI",
-      weather: "Ihu Igwe",
-      crops: "Ihe Ọkụkụ",
-      pests: "Ahụhụ",
-      ai_chat: "Mkparịta Ụka AI",
-      current_weather: "Ihu Igwe Ugbu A",
-      temperature: "Okpomọkụ",
-      humidity: "Iru Mmiri",
-      wind: "Ọsọ Ikuku",
-      rainfall: "Mmiri Ozuzo",
-      weather_alerts: "Ọkwa Ihu Igwe",
-      forecast: "Amụma Ụbọchị Ise",
-      crop_recommendations: "Ntụziaka Ihe Ọkụkụ",
-      demand: "Mkpa",
-      high: "Elu",
-      medium: "Etiti",
-      low: "Ala",
-      planting_time: "Oge Ịkụ",
-      harvest_time: "Oge Owuwe",
-      farming_tips: "Ndụmọdụ Ugbo",
-      market_price: "Ọnụ Ahịa",
-      pest_disease_guide: "Nduzi Ahụhụ na Ọrịa",
-      affects: "Na-emetụta",
-      severity: "Oke",
-      symptoms: "Mgbaàmà",
-      treatment: "Ọgwụgwọ",
-      prevention: "Mgbochi",
-      ai_farming_assistant: "Onye Inyeaka Ugbo AI",
-      ai_chat_welcome:
-        "Jụọ m ihe ọ bụla gbasara ugbo! Enwere m ike inyere gị aka na ihu igwe, ihe ọkụkụ, ahụhụ, na ndụmọdụ ahịa.",
-      ask_farming_question: "Jụọ ajụjụ ugbo...",
-      weather_advice: "Ndụmọdụ Ihu Igwe",
-      planting_advice: "Ndụmọdụ Ịkụ",
-      pest_help: "Enyemaka Ahụhụ",
-      market_advice: "Ndụmọdụ Ahịa",
-      quick_weather: "Gịnị bụ amụma ihu igwe maka ugbo?",
-      quick_planting: "Gịnị ka m kwesịrị ịkụ n'oge a?",
-      quick_pest: "Kedu ka m ga-esi mata ahụhụ ihe ọkụkụ?",
-      quick_market: "Kedu ihe ọkụkụ kacha mma ire?",
-      ai_weather_response:
-        "Dabere na ọnọdụ ihu igwe ugbu a, ana m akwado ka ị lelee mmiri ala tupu ịkụ ihe. Mmiri ozuzo na-abịa na Wenezde ga-adị mma maka ihe ọkụkụ a kụrụ n'oge na-adịbeghị anya, mana chebe obere osisi site na oke mmiri ozuzo.",
-      ai_crop_response:
-        "Maka oge a, ana m akwado ịkụ tomato na ọka. Tomato nwere nnukwu mkpa na ọnụ ahịa dị mma. Gbaa mbọ hụ na ị na-akụ n'ala nwere ezigbo mmiri na-asọpụta ma nye ohere zuru oke maka uto ahụike.",
-      ai_pest_response:
-        "Ahụhụ ndị a na-ahụkarị n'oge a gụnyere ọrịa tomato na ahụhụ ọka. Chọọ akara aja aja na akwụkwọ ma ọ bụ obere oghere na mkpụrụ. Jiri ọgwụgwọ okike dị ka mmanụ neem mgbe o kwere omume, ma na-eme mgbanwe ihe ọkụkụ mgbe niile.",
-      ai_market_response:
-        "Ọnụ ahịa ahịa ugbu a na-egosi tomato na ₦800/kg na nnukwu mkpa. Cassava na-anọgide kwụsie ike na ₦200/kg. Tụlee ịgbasapụ ihe ọkụkụ gị ma hazie oge owuwe gị na oge mkpa dị elu.",
-      ai_general_response:
-        "Anọ m ebe a inyere gị aka na ajụjụ ugbo gị niile! Jụọ m gbasara ọnọdụ ihu igwe, ntụziaka ihe ọkụkụ, njikwa ahụhụ, ma ọ bụ ọnụ ahịa. Enwere m ike inye ndụmọdụ n'asụsụ obodo gị.",
-    },
-  }
-
-  return (
-    translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] ||
-    translations.en[key as keyof typeof translations.en]
   )
 }

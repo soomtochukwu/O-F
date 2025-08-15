@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge"
 import { LanguageSelector } from "@/components/language-selector"
 import { VoiceButton } from "@/components/voice-button"
 import { AIVoiceAssistant } from "@/components/ai-voice-assistant"
-import AnimatedFarmBackground from "@/components/animated-farm-background"
 import {
   ArrowLeft,
   Wallet,
@@ -22,6 +21,7 @@ import {
   Lock,
   Unlock,
 } from "lucide-react"
+import Link from "next/link"
 
 export default function PaymentsPage() {
   const [selectedLanguage, setSelectedLanguage] = useState("en")
@@ -96,15 +96,15 @@ export default function PaymentsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
       case "active":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-500/20 text-blue-300 border-blue-500/30"
       case "completed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-500/20 text-green-300 border-green-500/30"
       case "cancelled":
-        return "bg-red-100 text-red-800"
+        return "bg-red-500/20 text-red-300 border-red-500/30"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-300 border-gray-500/30"
     }
   }
 
@@ -124,253 +124,311 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 p-4 relative">
-      <AnimatedFarmBackground />
+    <div className="mt-8 min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
 
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => (window.location.href = "/dashboard")} className="mr-2">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-              <Wallet className="w-6 h-6 text-white" />
+      {/* Main Container with Responsive Layout */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Container with max width and centering */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 transition-colors">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+            <div className="flex items-center gap-2">
+              <Wallet className="w-5 h-5 text-green-400" />
+              <span className="text-sm text-green-400 font-medium">Payment Hub</span>
             </div>
-            <h1 className="text-2xl font-bold text-green-800">{getTranslation("payments_escrow", selectedLanguage)}</h1>
           </div>
-          <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={setSelectedLanguage} />
-        </div>
 
-        {/* Balance Card */}
-        <Card className="mb-8 border-2 border-green-200">
-          <CardContent className="p-6 text-center">
-            <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <DollarSign className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-xl font-semibold mb-2 text-green-800">
-              {getTranslation("wallet_balance", selectedLanguage)}
-            </h2>
-            <p className="text-3xl font-bold text-green-700 mb-4">₦{walletBalance.toLocaleString()}</p>
-            <VoiceButton
-              text={`${getTranslation("wallet_balance", selectedLanguage)}: ${walletBalance} Naira`}
-              language={selectedLanguage}
-            />
-          </CardContent>
-        </Card>
+          {/* Title Section */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent mb-3">
+              {getTranslation("payments_escrow", selectedLanguage)}
+            </h1>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">Secure payments and escrow services for your transactions</p>
+          </div>
 
-        {/* Tab Navigation */}
-        <div className="flex mb-6 bg-white rounded-lg p-1 border-2 border-gray-200">
-          <Button
-            variant={activeTab === "wallet" ? "default" : "ghost"}
-            className="flex-1"
-            onClick={() => setActiveTab("wallet")}
-          >
-            <Wallet className="w-4 h-4 mr-2" />
-            {getTranslation("wallet", selectedLanguage)}
-          </Button>
-          <Button
-            variant={activeTab === "escrow" ? "default" : "ghost"}
-            className="flex-1"
-            onClick={() => setActiveTab("escrow")}
-          >
-            <Shield className="w-4 h-4 mr-2" />
-            {getTranslation("escrow", selectedLanguage)}
-          </Button>
-          <Button
-            variant={activeTab === "pools" ? "default" : "ghost"}
-            className="flex-1"
-            onClick={() => setActiveTab("pools")}
-          >
-            <Users className="w-4 h-4 mr-2" />
-            {getTranslation("pools", selectedLanguage)}
-          </Button>
-        </div>
-
-        {/* Wallet Tab */}
-        {activeTab === "wallet" && (
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <Card className="border-2 border-blue-200">
-              <CardHeader>
-                <CardTitle className="text-blue-800">{getTranslation("quick_actions", selectedLanguage)}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <Button className="w-full py-3 bg-green-600 hover:bg-green-700">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    {getTranslation("add_money", selectedLanguage)}
-                  </Button>
-                  <Button variant="outline" className="w-full py-3 bg-transparent">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    {getTranslation("withdraw", selectedLanguage)}
-                  </Button>
+          {/* Balance Card - Enhanced */}
+          <div className="max-w-2xl mx-auto mb-10">
+            <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/20">
+                  <DollarSign className="w-10 h-10 text-black" />
                 </div>
-                <div className="flex gap-2">
-                  <Input
-                    placeholder={getTranslation("enter_amount", selectedLanguage)}
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    type="number"
-                  />
-                  <Button variant="outline">{getTranslation("send", selectedLanguage)}</Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Transaction History */}
-            <Card className="border-2 border-gray-200">
-              <CardHeader>
-                <CardTitle className="text-gray-800">
-                  {getTranslation("recent_transactions", selectedLanguage)}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {[
-                  { type: "credit", desc: "Tomato Sales", amount: 18000, date: "2024-03-01" },
-                  { type: "debit", desc: "Transport Payment", amount: -5000, date: "2024-02-28" },
-                  { type: "credit", desc: "Cooperative Dividend", amount: 12000, date: "2024-02-25" },
-                ].map((tx, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <p className="font-medium">{tx.desc}</p>
-                      <p className="text-sm text-gray-600">{tx.date}</p>
-                    </div>
-                    <p className={`font-bold ${tx.type === "credit" ? "text-green-600" : "text-red-600"}`}>
-                      {tx.type === "credit" ? "+" : ""}₦{Math.abs(tx.amount).toLocaleString()}
-                    </p>
-                  </div>
-                ))}
+                <h2 className="text-2xl font-semibold mb-3 text-white">
+                  {getTranslation("wallet_balance", selectedLanguage)}
+                </h2>
+                <p className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent mb-6">
+                  ₦{walletBalance.toLocaleString()}
+                </p>
+                <VoiceButton
+                  text={`${getTranslation("wallet_balance", selectedLanguage)}: ${walletBalance} Naira`}
+                  language={selectedLanguage}
+                  className="w-full"
+                />
               </CardContent>
             </Card>
           </div>
-        )}
 
-        {/* Escrow Tab */}
-        {activeTab === "escrow" && (
-          <div className="space-y-6">
-            <Card className="border-2 border-orange-200">
-              <CardHeader>
-                <CardTitle className="text-orange-800">{getTranslation("active_escrows", selectedLanguage)}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {escrowTransactions.map((escrow) => (
-                  <div key={escrow.id} className="p-4 bg-white rounded-lg border border-gray-200">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="font-semibold text-gray-800">{escrow.description}</h3>
-                        <p className="text-sm text-gray-600">ID: {escrow.id}</p>
-                      </div>
-                      <Badge className={getStatusColor(escrow.status)}>
-                        {getStatusIcon(escrow.status)}
-                        <span className="ml-1">{getTranslation(escrow.status, selectedLanguage)}</span>
-                      </Badge>
+          {/* Navigation Tabs - Responsive */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="flex flex-col sm:flex-row gap-2 bg-black/70 rounded-xl p-2 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+              <Button
+                variant={activeTab === "wallet" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${
+                  activeTab === "wallet"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                }`}
+                onClick={() => setActiveTab("wallet")}
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                {getTranslation("wallet", selectedLanguage)}
+              </Button>
+              <Button
+                variant={activeTab === "escrow" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${
+                  activeTab === "escrow"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                }`}
+                onClick={() => setActiveTab("escrow")}
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                {getTranslation("escrow", selectedLanguage)}
+              </Button>
+              <Button
+                variant={activeTab === "pools" ? "default" : "ghost"}
+                className={`flex-1 py-3 px-4 rounded-lg transition-all duration-200 ${
+                  activeTab === "pools"
+                    ? "bg-green-500 hover:bg-green-600 text-black shadow-lg"
+                    : "text-white hover:bg-white/10 hover:text-green-400"
+                }`}
+                onClick={() => setActiveTab("pools")}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                {getTranslation("pools", selectedLanguage)}
+              </Button>
+            </div>
+          </div>
+
+          {/* Content Area with Responsive Container */}
+          <div className="max-w-4xl mx-auto">
+            {/* Wallet Tab */}
+            {activeTab === "wallet" && (
+              <div className="space-y-8">
+                {/* Quick Actions */}
+                <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-2xl text-white flex items-center gap-3">
+                      <TrendingUp className="w-6 h-6 text-green-400" />
+                      {getTranslation("quick_actions", selectedLanguage)}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6 p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Button className="w-full py-4 bg-green-500 hover:bg-green-600 text-black font-bold text-lg rounded-xl transition-all duration-200 shadow-lg">
+                        <TrendingUp className="w-5 h-5 mr-2" />
+                        {getTranslation("add_money", selectedLanguage)}
+                      </Button>
+                      <Button variant="outline" className="w-full py-4 border-gray-600 text-white hover:bg-white/10 rounded-xl transition-all duration-200">
+                        <DollarSign className="w-5 h-5 mr-2" />
+                        {getTranslation("withdraw", selectedLanguage)}
+                      </Button>
                     </div>
-
-                    <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-                      <div>
-                        <p className="text-gray-600">{getTranslation("buyer", selectedLanguage)}:</p>
-                        <p className="font-medium">{escrow.buyer}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">{getTranslation("seller", selectedLanguage)}:</p>
-                        <p className="font-medium">{escrow.seller}</p>
-                      </div>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Input
+                        placeholder={getTranslation("enter_amount", selectedLanguage)}
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        type="number"
+                        className="flex-1 py-4 bg-black/50 border-gray-600 text-white rounded-xl focus:border-green-500 transition-colors"
+                      />
+                      <Button variant="outline" className="py-4 px-6 border-gray-600 text-white hover:bg-white/10 rounded-xl transition-all duration-200">
+                        {getTranslation("send", selectedLanguage)}
+                      </Button>
                     </div>
+                  </CardContent>
+                </Card>
 
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-2xl font-bold text-green-600">₦{escrow.amount.toLocaleString()}</p>
-                        <p className="text-sm text-gray-600">
-                          {getTranslation("release_date", selectedLanguage)}: {escrow.releaseDate}
-                        </p>
-                      </div>
-                      {escrow.status === "pending" && (
-                        <div className="space-x-2">
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                            <Unlock className="w-4 h-4 mr-1" />
-                            {getTranslation("release", selectedLanguage)}
-                          </Button>
-                          <Button size="sm" variant="outline">
-                            {getTranslation("dispute", selectedLanguage)}
-                          </Button>
+                {/* Transaction History */}
+                <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-2xl text-white flex items-center gap-3">
+                      <Clock className="w-6 h-6 text-green-400" />
+                      {getTranslation("recent_transactions", selectedLanguage)}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4 p-6">
+                    {[
+                      { type: "credit", desc: "Tomato Sales", amount: 18000, date: "2024-03-01" },
+                      { type: "debit", desc: "Transport Payment", amount: -5000, date: "2024-02-28" },
+                      { type: "credit", desc: "Cooperative Dividend", amount: 12000, date: "2024-02-25" },
+                    ].map((tx, index) => (
+                      <div key={index} className="flex justify-between items-center p-4 bg-black/50 rounded-xl border border-gray-600 hover:border-green-400 transition-colors">
+                        <div>
+                          <p className="font-semibold text-white text-lg">{tx.desc}</p>
+                          <p className="text-sm text-gray-400">{tx.date}</p>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Pools Tab */}
-        {activeTab === "pools" && (
-          <div className="space-y-6">
-            <Card className="border-2 border-purple-200">
-              <CardHeader>
-                <CardTitle className="text-purple-800">
-                  {getTranslation("cooperative_pools", selectedLanguage)}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {cooperativePools.map((pool) => (
-                  <div key={pool.id} className="p-4 bg-white rounded-lg border border-gray-200">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h3 className="font-semibold text-gray-800">{pool.title}</h3>
-                        <p className="text-sm text-gray-600">
-                          {pool.participants} {getTranslation("participants", selectedLanguage)}
+                        <p className={`font-bold text-xl ${
+                          tx.type === "credit" ? "text-green-400" : "text-red-400"
+                        }`}>
+                          {tx.type === "credit" ? "+" : ""}₦{Math.abs(tx.amount).toLocaleString()}
                         </p>
                       </div>
-                      <Badge className={getStatusColor(pool.status)}>
-                        {getStatusIcon(pool.status)}
-                        <span className="ml-1">{getTranslation(pool.status, selectedLanguage)}</span>
-                      </Badge>
-                    </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
 
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>{getTranslation("progress", selectedLanguage)}</span>
-                        <span>
-                          ₦{pool.current.toLocaleString()} / ₦{pool.target.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div
-                          className="bg-purple-600 h-3 rounded-full transition-all duration-300"
-                          style={{ width: `${(pool.current / pool.target) * 100}%` }}
-                        ></div>
-                      </div>
-                      <p className="text-sm text-gray-600 mt-2">
-                        {getTranslation("deadline", selectedLanguage)}: {pool.deadline}
-                      </p>
-                    </div>
+            {/* Escrow Tab */}
+            {activeTab === "escrow" && (
+              <div className="space-y-8">
+                <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-2xl text-white flex items-center gap-3">
+                      <Shield className="w-6 h-6 text-green-400" />
+                      {getTranslation("active_escrows", selectedLanguage)}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6 p-6">
+                    {escrowTransactions.map((escrow) => (
+                      <div key={escrow.id} className="p-6 bg-black/50 rounded-xl border border-gray-600 hover:border-green-400 transition-all duration-300">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold text-white text-xl mb-1">{escrow.description}</h3>
+                            <p className="text-sm text-gray-400">ID: {escrow.id}</p>
+                          </div>
+                          <Badge className={`${getStatusColor(escrow.status)} border px-3 py-1 rounded-lg`}>
+                            {getStatusIcon(escrow.status)}
+                            <span className="ml-2">{getTranslation(escrow.status, selectedLanguage)}</span>
+                          </Badge>
+                        </div>
 
-                    {pool.status === "active" && (
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder={getTranslation("contribution_amount", selectedLanguage)}
-                          className="flex-1"
-                        />
-                        <Button className="bg-purple-600 hover:bg-purple-700">
-                          {getTranslation("contribute", selectedLanguage)}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm mb-6">
+                          <div>
+                            <p className="text-gray-400 mb-1">{getTranslation("buyer", selectedLanguage)}:</p>
+                            <p className="font-medium text-white">{escrow.buyer}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-400 mb-1">{getTranslation("seller", selectedLanguage)}:</p>
+                            <p className="font-medium text-white">{escrow.seller}</p>
+                          </div>
+                        </div>
 
-            <Button className="w-full py-3 bg-purple-600 hover:bg-purple-700">
-              <Users className="w-4 h-4 mr-2" />
-              {getTranslation("create_new_pool", selectedLanguage)}
-            </Button>
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                          <div>
+                            <p className="text-3xl font-bold text-green-400 mb-1">₦{escrow.amount.toLocaleString()}</p>
+                            <p className="text-sm text-gray-400">
+                              {getTranslation("release_date", selectedLanguage)}: {escrow.releaseDate}
+                            </p>
+                          </div>
+                          {escrow.status === "pending" && (
+                            <div className="flex gap-3">
+                              <Button size="sm" className="bg-green-500 hover:bg-green-600 text-black font-bold px-4 py-2 rounded-lg">
+                                <Unlock className="w-4 h-4 mr-2" />
+                                {getTranslation("release", selectedLanguage)}
+                              </Button>
+                              <Button size="sm" variant="outline" className="border-gray-600 text-white hover:bg-white/10 px-4 py-2 rounded-lg">
+                                {getTranslation("dispute", selectedLanguage)}
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* Pools Tab */}
+            {activeTab === "pools" && (
+              <div className="space-y-8">
+                <Card className="bg-black/70 border border-green-500/30 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-2xl text-white flex items-center gap-3">
+                      <Users className="w-6 h-6 text-green-400" />
+                      {getTranslation("cooperative_pools", selectedLanguage)}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6 p-6">
+                    {cooperativePools.map((pool) => (
+                      <div key={pool.id} className="p-6 bg-black/50 rounded-xl border border-gray-600 hover:border-green-400 transition-all duration-300">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold text-white text-xl mb-1">{pool.title}</h3>
+                            <p className="text-sm text-gray-400">
+                              {pool.participants} {getTranslation("participants", selectedLanguage)}
+                            </p>
+                          </div>
+                          <Badge className={`${getStatusColor(pool.status)} border px-3 py-1 rounded-lg`}>
+                            {getStatusIcon(pool.status)}
+                            <span className="ml-2">{getTranslation(pool.status, selectedLanguage)}</span>
+                          </Badge>
+                        </div>
+
+                        <div className="mb-6">
+                          <div className="flex justify-between text-sm mb-3">
+                            <span className="text-gray-300">{getTranslation("progress", selectedLanguage)}</span>
+                            <span className="text-white font-medium">
+                              ₦{pool.current.toLocaleString()} / ₦{pool.target.toLocaleString()}
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-4">
+                            <div
+                              className="bg-gradient-to-r from-green-500 to-green-400 h-4 rounded-full transition-all duration-500 shadow-lg shadow-green-500/20"
+                              style={{ width: `${(pool.current / pool.target) * 100}%` }}
+                            ></div>
+                          </div>
+                          <p className="text-sm text-gray-400 mt-3">
+                            {getTranslation("deadline", selectedLanguage)}: {pool.deadline}
+                          </p>
+                        </div>
+
+                        {pool.status === "active" && (
+                          <div className="flex flex-col sm:flex-row gap-4">
+                            <Input
+                              placeholder={getTranslation("contribution_amount", selectedLanguage)}
+                              className="flex-1 py-3 bg-black/50 border-gray-600 text-white rounded-xl focus:border-green-500 transition-colors"
+                            />
+                            <Button className="bg-green-500 hover:bg-green-600 text-black font-bold py-3 px-6 rounded-xl transition-all duration-200">
+                              {getTranslation("contribute", selectedLanguage)}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                <Button className="w-full py-4 bg-green-500 hover:bg-green-600 text-black font-bold text-lg rounded-xl transition-all duration-200 shadow-lg">
+                  <Users className="w-5 h-5 mr-2" />
+                  {getTranslation("create_new_pool", selectedLanguage)}
+                </Button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* AI Voice Assistant */}
+      {/* AI Voice Assistant */}
+      <div className="fixed bottom-6 right-6 z-50">
         <AIVoiceAssistant language={selectedLanguage} />
       </div>
     </div>

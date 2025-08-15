@@ -142,82 +142,110 @@ export default function MarketplacePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100 p-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Link href="/">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
-        </Link>
-        <div className="flex items-center gap-2">
-          <ShoppingCart className="w-5 h-5 text-purple-600" />
-          <span className="text-sm text-purple-600">Harvest Futures</span>
+    <div className="min-h-screen mt-8 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
+
+      <div className="relative z-10 p-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <Link href="/dashboard">
+            <Button variant="ghost" size="sm" className="text-white hover:text-green-400 hover:bg-green-500/10">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+          <div className="flex items-center gap-2">
+            <ShoppingCart className="w-5 h-5 text-green-400" />
+            <span className="text-sm text-green-400">Harvest Futures</span>
+          </div>
         </div>
+
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-white mb-2">Harvest Futures Marketplace</h1>
+          <p className="text-gray-300">Invest in future harvests or sell your upcoming crops</p>
+        </div>
+
+        {/* User Type Toggle */}
+        <div className="flex gap-2 mb-6 bg-black/40 backdrop-blur-sm border border-green-500/20 rounded-lg p-1 max-w-md mx-auto">
+          <Button
+            variant={userType === "buyer" ? "default" : "ghost"}
+            className={`flex-1 ${userType === "buyer"
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "text-gray-300 hover:text-white hover:bg-green-500/10"
+              }`}
+            onClick={() => setUserType("buyer")}
+          >
+            I'm a Buyer
+          </Button>
+          <Button
+            variant={userType === "farmer" ? "default" : "ghost"}
+            className={`flex-1 ${userType === "farmer"
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "text-gray-300 hover:text-white hover:bg-green-500/10"
+              }`}
+            onClick={() => setUserType("farmer")}
+          >
+            I'm a Farmer
+          </Button>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex gap-2 mb-6 bg-black/40 backdrop-blur-sm border border-green-500/20 rounded-lg p-1">
+          <Button
+            variant={activeTab === "browse" ? "default" : "ghost"}
+            className={`flex-1 ${activeTab === "browse"
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "text-gray-300 hover:text-white hover:bg-green-500/10"
+              }`}
+            onClick={() => setActiveTab("browse")}
+          >
+            {userType === "buyer" ? "Browse Futures" : "Market Overview"}
+          </Button>
+          <Button
+            variant={activeTab === "sell" ? "default" : "ghost"}
+            className={`flex-1 ${activeTab === "sell"
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "text-gray-300 hover:text-white hover:bg-green-500/10"
+              }`}
+            onClick={() => setActiveTab("sell")}
+          >
+            {userType === "buyer" ? "My Investments" : "Sell Harvest"}
+          </Button>
+          <Button
+            variant={activeTab === "investments" ? "default" : "ghost"}
+            className={`flex-1 ${activeTab === "investments"
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "text-gray-300 hover:text-white hover:bg-green-500/10"
+              }`}
+            onClick={() => setActiveTab("investments")}
+          >
+            {userType === "buyer" ? "Portfolio" : "My Listings"}
+          </Button>
+        </div>
+
+        {/* Content */}
+        {activeTab === "browse" && <BrowseFutures futures={mockFutures} userType={userType} language={language} />}
+
+        {activeTab === "sell" && userType === "farmer" && <SellHarvestForm language={language} />}
+
+        {activeTab === "sell" && userType === "buyer" && (
+          <InvestmentView investments={mockInvestments} language={language} />
+        )}
+
+        {activeTab === "investments" && (
+          <PortfolioView investments={mockInvestments} futures={mockFutures} userType={userType} language={language} />
+        )}
       </div>
-
-      {/* Title */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-purple-800 mb-2">Harvest Futures Marketplace</h1>
-        <p className="text-purple-600">Invest in future harvests or sell your upcoming crops</p>
-      </div>
-
-      {/* User Type Toggle */}
-      <div className="flex gap-2 mb-6 bg-white rounded-lg p-1 border-2 border-purple-200 max-w-md mx-auto">
-        <Button
-          variant={userType === "buyer" ? "default" : "ghost"}
-          className={`flex-1 ${userType === "buyer" ? "bg-purple-600" : ""}`}
-          onClick={() => setUserType("buyer")}
-        >
-          I'm a Buyer
-        </Button>
-        <Button
-          variant={userType === "farmer" ? "default" : "ghost"}
-          className={`flex-1 ${userType === "farmer" ? "bg-purple-600" : ""}`}
-          onClick={() => setUserType("farmer")}
-        >
-          I'm a Farmer
-        </Button>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="flex gap-2 mb-6 bg-white rounded-lg p-1 border-2 border-purple-200">
-        <Button
-          variant={activeTab === "browse" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "browse" ? "bg-purple-600" : ""}`}
-          onClick={() => setActiveTab("browse")}
-        >
-          {userType === "buyer" ? "Browse Futures" : "Market Overview"}
-        </Button>
-        <Button
-          variant={activeTab === "sell" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "sell" ? "bg-purple-600" : ""}`}
-          onClick={() => setActiveTab("sell")}
-        >
-          {userType === "buyer" ? "My Investments" : "Sell Harvest"}
-        </Button>
-        <Button
-          variant={activeTab === "investments" ? "default" : "ghost"}
-          className={`flex-1 ${activeTab === "investments" ? "bg-purple-600" : ""}`}
-          onClick={() => setActiveTab("investments")}
-        >
-          {userType === "buyer" ? "Portfolio" : "My Listings"}
-        </Button>
-      </div>
-
-      {/* Content */}
-      {activeTab === "browse" && <BrowseFutures futures={mockFutures} userType={userType} language={language} />}
-
-      {activeTab === "sell" && userType === "farmer" && <SellHarvestForm language={language} />}
-
-      {activeTab === "sell" && userType === "buyer" && (
-        <InvestmentView investments={mockInvestments} language={language} />
-      )}
-
-      {activeTab === "investments" && (
-        <PortfolioView investments={mockInvestments} futures={mockFutures} userType={userType} language={language} />
-      )}
     </div>
   )
 }
@@ -233,30 +261,30 @@ function BrowseFutures({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "available":
-        return "bg-green-100 text-green-800"
+        return "bg-green-500/20 text-green-400 border border-green-500/30"
       case "partially-sold":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
       case "sold-out":
-        return "bg-red-100 text-red-800"
+        return "bg-red-500/20 text-red-400 border border-red-500/30"
       case "harvested":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-500/20 text-blue-400 border border-blue-500/30"
       case "delivered":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-400 border border-gray-500/30"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-400 border border-gray-500/30"
     }
   }
 
   const getGradeColor = (grade: string) => {
     switch (grade) {
       case "A":
-        return "bg-green-100 text-green-800"
+        return "bg-green-500/20 text-green-400 border border-green-500/30"
       case "B":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
       case "C":
-        return "bg-orange-100 text-orange-800"
+        return "bg-orange-500/20 text-orange-400 border border-orange-500/30"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-400 border border-gray-500/30"
     }
   }
 
@@ -292,43 +320,47 @@ Your investment is secured in escrow.`)
     const estimatedCost = purchaseAmount ? Number.parseInt(purchaseAmount) * tokenPrice : 0
 
     return (
-      <Card className="border-2 border-purple-200">
+      <Card className="bg-black/40 backdrop-blur-sm border border-green-500/20">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <Button variant="ghost" onClick={() => setSelectedFuture(null)} className="p-2">
+            <Button
+              variant="ghost"
+              onClick={() => setSelectedFuture(null)}
+              className="p-2 text-white hover:text-green-400 hover:bg-green-500/10"
+            >
               <ArrowLeft className="w-4 h-4" />
             </Button>
-            <CardTitle className="text-xl text-purple-800">Purchase Tokens</CardTitle>
+            <CardTitle className="text-xl text-white">Purchase Tokens</CardTitle>
             <div></div>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="bg-purple-50 p-4 rounded-lg">
+          <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">{selectedFuture.cropIcon}</span>
               <div>
-                <h3 className="text-lg font-semibold">{selectedFuture.cropType}</h3>
-                <p className="text-sm text-gray-600">by {selectedFuture.farmerName}</p>
+                <h3 className="text-lg font-semibold text-white">{selectedFuture.cropType}</h3>
+                <p className="text-sm text-gray-300">by {selectedFuture.farmerName}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-600">Quantity:</span>
-                <div className="font-medium">
+                <span className="text-gray-400">Quantity:</span>
+                <div className="font-medium text-white">
                   {selectedFuture.quantity} {selectedFuture.unit}
                 </div>
               </div>
               <div>
-                <span className="text-gray-600">Harvest Date:</span>
-                <div className="font-medium">{selectedFuture.harvestDate}</div>
+                <span className="text-gray-400">Harvest Date:</span>
+                <div className="font-medium text-white">{selectedFuture.harvestDate}</div>
               </div>
               <div>
-                <span className="text-gray-600">Price per {selectedFuture.unit}:</span>
-                <div className="font-medium">₦{selectedFuture.pricePerUnit}</div>
+                <span className="text-gray-400">Price per {selectedFuture.unit}:</span>
+                <div className="font-medium text-white">₦{selectedFuture.pricePerUnit}</div>
               </div>
               <div>
-                <span className="text-gray-600">Quality Grade:</span>
+                <span className="text-gray-400">Quality Grade:</span>
                 <Badge className={getGradeColor(selectedFuture.qualityGrade)}>
                   Grade {selectedFuture.qualityGrade}
                 </Badge>
@@ -338,7 +370,7 @@ Your investment is secured in escrow.`)
 
           <div className="space-y-4">
             <div>
-              <Label className="text-lg font-medium">Number of Tokens to Purchase</Label>
+              <Label className="text-lg font-medium text-white">Number of Tokens to Purchase</Label>
               <Input
                 type="number"
                 value={purchaseAmount}
@@ -346,30 +378,30 @@ Your investment is secured in escrow.`)
                 placeholder="Enter number of tokens"
                 max={availableTokens}
                 min="1"
-                className="text-lg py-3 mt-2"
+                className="text-lg py-3 mt-2 bg-black/40 border-green-500/20 text-white placeholder:text-gray-400"
               />
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-400 mt-1">
                 Available: {availableTokens} tokens (₦{tokenPrice.toLocaleString()} each)
               </p>
             </div>
 
             {purchaseAmount && (
-              <div className="bg-green-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">Investment Summary</h4>
+              <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2 text-white">Investment Summary</h4>
                 <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-gray-300">
                     <span>Tokens:</span>
                     <span>{purchaseAmount}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-gray-300">
                     <span>Cost per token:</span>
                     <span>₦{tokenPrice.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between font-bold text-lg border-t pt-2">
-                    <span>Total Cost:</span>
-                    <span className="text-green-600">₦{estimatedCost.toLocaleString()}</span>
+                  <div className="flex justify-between font-bold text-lg border-t border-green-500/20 pt-2">
+                    <span className="text-white">Total Cost:</span>
+                    <span className="text-green-400">₦{estimatedCost.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-green-600">
+                  <div className="flex justify-between text-green-400">
                     <span>Expected Value:</span>
                     <span>₦{(estimatedCost * 1.1).toLocaleString()}</span>
                   </div>
@@ -380,7 +412,7 @@ Your investment is secured in escrow.`)
             <Button
               onClick={() => handlePurchase(selectedFuture)}
               disabled={!purchaseAmount || Number.parseInt(purchaseAmount) <= 0}
-              className="w-full bg-purple-600 hover:bg-purple-700 py-3 text-lg"
+              className="w-full bg-green-600 hover:bg-green-700 py-3 text-lg"
             >
               Purchase Tokens
             </Button>
@@ -397,95 +429,100 @@ Your investment is secured in escrow.`)
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
       {futures.map((future) => {
         const availableTokens = future.tokensAvailable - future.tokensSold
         const soldPercentage = Math.round((future.tokensSold / future.tokensAvailable) * 100)
         const tokenPrice = future.totalValue / future.tokensAvailable
 
         return (
-          <Card key={future.id} className="border-2 border-purple-200 hover:border-purple-300 transition-colors">
-            <CardContent className="p-6">
+          <Card key={future.id} className="bg-black/40 backdrop-blur-sm border border-green-500/20 hover:border-green-400/40 transition-colors flex flex-col">
+            <CardContent className="p-6 flex-1 flex flex-col">
+              {/* Card Header - Flexbox for alignment */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{future.cropIcon}</span>
                   <div>
-                    <h3 className="text-lg font-semibold">{future.cropType}</h3>
-                    <p className="text-sm text-gray-600">by {future.farmerName}</p>
-                    <p className="text-sm text-gray-500">{future.location}</p>
+                    <h3 className="text-lg font-semibold text-white">{future.cropType}</h3>
+                    <p className="text-sm text-gray-300">by {future.farmerName}</p>
+                    <p className="text-sm text-gray-400">{future.location}</p>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right space-y-2">
                   <Badge className={getStatusColor(future.status)}>
                     {future.status.replace("-", " ").toUpperCase()}
                   </Badge>
-                  <div className="mt-2">
+                  <div>
                     <Badge className={getGradeColor(future.qualityGrade)}>Grade {future.qualityGrade}</Badge>
                   </div>
                 </div>
               </div>
 
-              <p className="text-gray-700 mb-4">{future.description}</p>
+              <p className="text-gray-300 mb-4 flex-1">{future.description}</p>
 
+              {/* Details Grid - CSS Grid for responsive info layout */}
               <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
                 <div>
-                  <span className="text-gray-600">Quantity:</span>
-                  <div className="font-medium">
+                  <span className="text-gray-400">Quantity:</span>
+                  <div className="font-medium text-white">
                     {future.quantity} {future.unit}
                   </div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Harvest Date:</span>
-                  <div className="font-medium flex items-center gap-1">
+                  <span className="text-gray-400">Harvest Date:</span>
+                  <div className="font-medium flex items-center gap-1 text-white">
                     <Calendar className="w-4 h-4" />
                     {future.harvestDate}
                   </div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Price per {future.unit}:</span>
-                  <div className="font-medium text-green-600">₦{future.pricePerUnit}</div>
+                  <span className="text-gray-400">Price per {future.unit}:</span>
+                  <div className="font-medium text-green-400">₦{future.pricePerUnit}</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Estimated Yield:</span>
-                  <div className="font-medium">{future.estimatedYield}</div>
+                  <span className="text-gray-400">Estimated Yield:</span>
+                  <div className="font-medium text-white">{future.estimatedYield}</div>
                 </div>
               </div>
 
-              {/* Token Sales Progress */}
+              {/* Progress Section - Flexbox for progress layout */}
               <div className="space-y-3 mb-4">
                 <div className="flex justify-between text-sm">
-                  <span>
+                  <span className="text-gray-300">
                     Tokens Sold: {future.tokensSold}/{future.tokensAvailable}
                   </span>
-                  <span className="text-green-600">{soldPercentage}% funded</span>
+                  <span className="text-green-400">{soldPercentage}% funded</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-gray-700 rounded-full h-3">
                   <div
-                    className="bg-purple-500 h-3 rounded-full transition-all duration-300"
+                    className="bg-green-500 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${soldPercentage}%` }}
                   />
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Available: {availableTokens} tokens</span>
-                  <span className="font-medium">₦{tokenPrice.toLocaleString()} per token</span>
+                  <span className="text-gray-300">Available: {availableTokens} tokens</span>
+                  <span className="font-medium text-white">₦{tokenPrice.toLocaleString()} per token</span>
                 </div>
               </div>
 
-              {userType === "buyer" && future.status === "available" && availableTokens > 0 && (
-                <Button
-                  onClick={() => setSelectedFuture(future)}
-                  className="w-full bg-purple-600 hover:bg-purple-700 py-3"
-                >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Invest in This Harvest
-                </Button>
-              )}
+              {/* Action Buttons - Flexbox for button layout */}
+              <div className="space-y-3 mt-auto">
+                {userType === "buyer" && future.status === "available" && availableTokens > 0 && (
+                  <Button
+                    onClick={() => setSelectedFuture(future)}
+                    className="w-full bg-green-600 hover:bg-green-700 py-3"
+                  >
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    Invest in This Harvest
+                  </Button>
+                )}
 
-              <VoiceButton
-                text={`${future.cropType} harvest future from ${future.farmerName}. ${future.quantity} ${future.unit} expected on ${future.harvestDate}. ${availableTokens} tokens available at ${tokenPrice.toLocaleString()} naira each. Quality grade ${future.qualityGrade}.`}
-                language={language}
-                className="w-full mt-3"
-              />
+                <VoiceButton
+                  text={`${future.cropType} harvest future from ${future.farmerName}. ${future.quantity} ${future.unit} expected on ${future.harvestDate}. ${availableTokens} tokens available at ${tokenPrice.toLocaleString()} naira each. Quality grade ${future.qualityGrade}.`}
+                  language={language}
+                  className="w-full"
+                />
+              </div>
             </CardContent>
           </Card>
         )
@@ -547,50 +584,51 @@ Your listing will be reviewed and made available to investors.`)
   }
 
   return (
-    <Card className="border-2 border-purple-200">
+    <Card className="bg-black/40 backdrop-blur-sm border border-green-500/20 max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-xl text-purple-800 text-center">List Your Future Harvest</CardTitle>
-        <p className="text-center text-purple-600">Get funding for your crops before harvest</p>
+        <CardTitle className="text-xl text-white text-center">List Your Future Harvest</CardTitle>
+        <p className="text-center text-gray-300">Get funding for your crops before harvest</p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Crop Type Selection - CSS Grid for responsive crop grid */}
           <div>
-            <Label className="text-lg font-medium">Crop Type</Label>
-            <div className="grid grid-cols-2 gap-3 mt-2">
+            <Label className="text-lg font-medium text-white">Crop Type</Label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-2">
               {cropTypes.map((crop) => (
                 <div
                   key={crop.name}
                   onClick={() => setFormData({ ...formData, cropType: crop.name })}
-                  className={`p-3 border-2 rounded-lg cursor-pointer transition-colors text-center ${
-                    formData.cropType === crop.name
-                      ? "border-purple-500 bg-purple-50"
-                      : "border-gray-300 hover:border-purple-300"
-                  }`}
+                  className={`p-3 border-2 rounded-lg cursor-pointer transition-colors text-center ${formData.cropType === crop.name
+                      ? "border-green-500 bg-green-500/10"
+                      : "border-gray-600 hover:border-green-400 bg-black/20"
+                    }`}
                 >
                   <div className="text-2xl mb-1">{crop.icon}</div>
-                  <div className="text-sm font-medium">{crop.name}</div>
+                  <div className="text-sm font-medium text-white">{crop.name}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* Form Fields - CSS Grid for responsive form layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label className="text-lg font-medium">Quantity</Label>
+              <Label className="text-lg font-medium text-white">Quantity</Label>
               <Input
                 type="number"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                 placeholder="500"
-                className="text-lg py-3 mt-2"
+                className="text-lg py-3 mt-2 bg-black/40 border-green-500/20 text-white placeholder:text-gray-400"
               />
             </div>
             <div>
-              <Label className="text-lg font-medium">Unit</Label>
+              <Label className="text-lg font-medium text-white">Unit</Label>
               <select
                 value={formData.unit}
                 onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                className="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mt-2 focus:border-purple-500 focus:outline-none"
+                className="w-full p-3 border-2 border-green-500/20 rounded-lg text-lg mt-2 focus:border-green-500 focus:outline-none bg-black/40 text-white"
               >
                 <option value="kg">Kilograms (kg)</option>
                 <option value="baskets">Baskets</option>
@@ -598,56 +636,53 @@ Your listing will be reviewed and made available to investors.`)
                 <option value="tonnes">Tonnes</option>
               </select>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label className="text-lg font-medium">Expected Harvest Date</Label>
+              <Label className="text-lg font-medium text-white">Expected Harvest Date</Label>
               <Input
                 type="date"
                 value={formData.harvestDate}
                 onChange={(e) => setFormData({ ...formData, harvestDate: e.target.value })}
-                className="text-lg py-3 mt-2"
+                className="text-lg py-3 mt-2 bg-black/40 border-green-500/20 text-white"
                 min={new Date().toISOString().split("T")[0]}
               />
             </div>
             <div>
-              <Label className="text-lg font-medium">Price per {formData.unit}</Label>
+              <Label className="text-lg font-medium text-white">Price per {formData.unit}</Label>
               <Input
                 type="number"
                 value={formData.pricePerUnit}
                 onChange={(e) => setFormData({ ...formData, pricePerUnit: e.target.value })}
                 placeholder="350"
-                className="text-lg py-3 mt-2"
+                className="text-lg py-3 mt-2 bg-black/40 border-green-500/20 text-white placeholder:text-gray-400"
               />
             </div>
           </div>
 
           <div>
-            <Label className="text-lg font-medium">Location</Label>
+            <Label className="text-lg font-medium text-white">Location</Label>
             <Input
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               placeholder="e.g., Kano State"
-              className="text-lg py-3 mt-2"
+              className="text-lg py-3 mt-2 bg-black/40 border-green-500/20 text-white placeholder:text-gray-400"
             />
           </div>
 
+          {/* Quality Grade - Flexbox for grade selection */}
           <div>
-            <Label className="text-lg font-medium">Quality Grade</Label>
-            <div className="flex gap-3 mt-2">
+            <Label className="text-lg font-medium text-white">Quality Grade</Label>
+            <div className="grid grid-cols-3 gap-3 mt-2">
               {["A", "B", "C"].map((grade) => (
                 <div
                   key={grade}
                   onClick={() => setFormData({ ...formData, qualityGrade: grade })}
-                  className={`p-3 border-2 rounded-lg cursor-pointer transition-colors text-center flex-1 ${
-                    formData.qualityGrade === grade
-                      ? "border-purple-500 bg-purple-50"
-                      : "border-gray-300 hover:border-purple-300"
-                  }`}
+                  className={`p-3 border-2 rounded-lg cursor-pointer transition-colors text-center ${formData.qualityGrade === grade
+                      ? "border-green-500 bg-green-500/10"
+                      : "border-gray-600 hover:border-green-400 bg-black/20"
+                    }`}
                 >
-                  <div className="font-bold text-lg">Grade {grade}</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-bold text-lg text-white">Grade {grade}</div>
+                  <div className="text-sm text-gray-400">
                     {grade === "A" ? "Premium" : grade === "B" ? "Standard" : "Basic"}
                   </div>
                 </div>
@@ -656,33 +691,34 @@ Your listing will be reviewed and made available to investors.`)
           </div>
 
           <div>
-            <Label className="text-lg font-medium">Description</Label>
+            <Label className="text-lg font-medium text-white">Description</Label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Describe your crop variety, farming methods, etc."
               rows={3}
-              className="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mt-2 focus:border-purple-500 focus:outline-none"
+              className="w-full p-3 border-2 border-green-500/20 rounded-lg text-lg mt-2 focus:border-green-500 focus:outline-none bg-black/40 text-white placeholder:text-gray-400"
             />
           </div>
 
+          {/* Summary Section */}
           {formData.quantity && formData.pricePerUnit && (
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">Listing Summary</h4>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
+            <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2 text-white">Listing Summary</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                <div className="flex justify-between sm:flex-col sm:items-center text-gray-300">
                   <span>Total Quantity:</span>
-                  <span>
+                  <span className="font-medium text-white">
                     {formData.quantity} {formData.unit}
                   </span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between sm:flex-col sm:items-center text-gray-300">
                   <span>Price per {formData.unit}:</span>
-                  <span>₦{formData.pricePerUnit}</span>
+                  <span className="font-medium text-white">₦{formData.pricePerUnit}</span>
                 </div>
-                <div className="flex justify-between font-bold text-lg border-t pt-2">
-                  <span>Total Value:</span>
-                  <span className="text-green-600">
+                <div className="flex justify-between sm:flex-col sm:items-center border-t sm:border-t-0 sm:border-l border-green-500/20 pt-2 sm:pt-0 sm:pl-4">
+                  <span className="text-white font-semibold">Total Value:</span>
+                  <span className="text-green-400 font-bold text-lg">
                     ₦{(Number.parseInt(formData.quantity) * Number.parseInt(formData.pricePerUnit)).toLocaleString()}
                   </span>
                 </div>
@@ -690,16 +726,19 @@ Your listing will be reviewed and made available to investors.`)
             </div>
           )}
 
-          <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 py-3 text-lg">
-            <Plus className="w-5 h-5 mr-2" />
-            List Harvest Future
-          </Button>
+          {/* Submit Actions - Flexbox for button layout */}
+          <div className="flex flex-col gap-3">
+            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 py-3 text-lg">
+              <Plus className="w-5 h-5 mr-2" />
+              List Harvest Future
+            </Button>
 
-          <VoiceButton
-            text="Fill in your crop details including type, quantity, harvest date, and price. This will create a tokenized future that investors can purchase to fund your farming."
-            language={language}
-            className="w-full"
-          />
+            <VoiceButton
+              text="Fill in your crop details including type, quantity, harvest date, and price. This will create a tokenized future that investors can purchase to fund your farming."
+              language={language}
+              className="w-full"
+            />
+          </div>
         </form>
       </CardContent>
     </Card>
@@ -710,83 +749,85 @@ function InvestmentView({ investments, language }: { investments: Investment[]; 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-500/20 text-blue-400 border border-blue-500/30"
       case "ready":
-        return "bg-green-100 text-green-800"
+        return "bg-green-500/20 text-green-400 border border-green-500/30"
       case "delivered":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-400 border border-gray-500/30"
       case "cancelled":
-        return "bg-red-100 text-red-800"
+        return "bg-red-500/20 text-red-400 border border-red-500/30"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-500/20 text-gray-400 border border-gray-500/30"
     }
   }
 
   if (investments.length === 0) {
     return (
-      <Card className="border-2 border-purple-200">
+      <Card className="bg-black/40 backdrop-blur-sm border border-green-500/20">
         <CardContent className="p-8 text-center">
-          <Package className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-purple-800 mb-2">No Investments Yet</h3>
-          <p className="text-purple-600">Start investing in harvest futures to see them here.</p>
+          <Package className="w-16 h-16 text-green-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Investments Yet</h3>
+          <p className="text-gray-300">Start investing in harvest futures to see them here.</p>
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {investments.map((investment) => {
         const roi = ((investment.expectedReturn - investment.investmentAmount) / investment.investmentAmount) * 100
 
         return (
-          <Card key={investment.id} className="border-2 border-purple-200">
+          <Card key={investment.id} className="bg-black/40 backdrop-blur-sm border border-green-500/20">
             <CardContent className="p-6">
+              {/* Investment Header - Flexbox for alignment */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{investment.cropIcon}</span>
                   <div>
-                    <h3 className="text-lg font-semibold">{investment.cropType}</h3>
-                    <p className="text-sm text-gray-600">by {investment.farmerName}</p>
+                    <h3 className="text-lg font-semibold text-white">{investment.cropType}</h3>
+                    <p className="text-sm text-gray-300">by {investment.farmerName}</p>
                   </div>
                 </div>
                 <Badge className={getStatusColor(investment.status)}>{investment.status.toUpperCase()}</Badge>
               </div>
 
+              {/* Investment Details - CSS Grid for responsive layout */}
               <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
                 <div>
-                  <span className="text-gray-600">Tokens Owned:</span>
-                  <div className="font-medium">{investment.tokensOwned}</div>
+                  <span className="text-gray-400">Tokens Owned:</span>
+                  <div className="font-medium text-white">{investment.tokensOwned}</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Investment:</span>
-                  <div className="font-medium text-blue-600">₦{investment.investmentAmount.toLocaleString()}</div>
+                  <span className="text-gray-400">Investment:</span>
+                  <div className="font-medium text-blue-400">₦{investment.investmentAmount.toLocaleString()}</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Expected Return:</span>
-                  <div className="font-medium text-green-600">₦{investment.expectedReturn.toLocaleString()}</div>
+                  <span className="text-gray-400">Expected Return:</span>
+                  <div className="font-medium text-green-400">₦{investment.expectedReturn.toLocaleString()}</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">ROI:</span>
-                  <div className="font-medium text-green-600">+{roi.toFixed(1)}%</div>
+                  <span className="text-gray-400">ROI:</span>
+                  <div className="font-medium text-green-400">+{roi.toFixed(1)}%</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Harvest Date:</span>
-                  <div className="font-medium">{investment.harvestDate}</div>
+                  <span className="text-gray-400">Harvest Date:</span>
+                  <div className="font-medium text-white">{investment.harvestDate}</div>
                 </div>
                 <div>
-                  <span className="text-gray-600">Purchase Date:</span>
-                  <div className="font-medium">{investment.purchaseDate}</div>
+                  <span className="text-gray-400">Purchase Date:</span>
+                  <div className="font-medium text-white">{investment.purchaseDate}</div>
                 </div>
               </div>
 
               {investment.status === "ready" && (
-                <div className="bg-green-50 p-3 rounded-lg mb-4">
-                  <div className="flex items-center gap-2 text-green-800">
+                <div className="bg-green-500/10 border border-green-500/20 p-3 rounded-lg mb-4">
+                  <div className="flex items-center gap-2 text-green-400">
                     <CheckCircle className="w-5 h-5" />
                     <span className="font-semibold">Harvest Ready for Delivery!</span>
                   </div>
-                  <p className="text-sm text-green-700 mt-1">
+                  <p className="text-sm text-green-300 mt-1">
                     Your investment is ready. Contact the farmer to arrange delivery.
                   </p>
                 </div>
@@ -817,56 +858,56 @@ function PortfolioView({
 
   return (
     <div className="space-y-6">
-      {/* Portfolio Summary */}
-      <Card className="border-2 border-purple-200">
+      {/* Portfolio Summary - CSS Grid for responsive metrics */}
+      <Card className="bg-black/40 backdrop-blur-sm border border-green-500/20">
         <CardHeader>
-          <CardTitle className="text-xl text-purple-800 text-center">
+          <CardTitle className="text-xl text-white text-center">
             {userType === "buyer" ? "Investment Portfolio" : "Listing Performance"}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">₦{totalInvested.toLocaleString()}</div>
-              <div className="text-sm text-blue-800">{userType === "buyer" ? "Total Invested" : "Total Raised"}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="text-center p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <div className="text-2xl font-bold text-blue-400">₦{totalInvested.toLocaleString()}</div>
+              <div className="text-sm text-blue-300">{userType === "buyer" ? "Total Invested" : "Total Raised"}</div>
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">₦{totalExpectedReturn.toLocaleString()}</div>
-              <div className="text-sm text-green-800">Expected Returns</div>
+            <div className="text-center p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <div className="text-2xl font-bold text-green-400">₦{totalExpectedReturn.toLocaleString()}</div>
+              <div className="text-sm text-green-300">Expected Returns</div>
             </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">{investments.length}</div>
-              <div className="text-sm text-purple-800">
+            <div className="text-center p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+              <div className="text-2xl font-bold text-yellow-400">{investments.length}</div>
+              <div className="text-sm text-yellow-300">
                 {userType === "buyer" ? "Active Investments" : "Active Listings"}
               </div>
             </div>
-            <div className="text-center p-4 bg-yellow-50 rounded-lg">
-              <div className="text-2xl font-bold text-yellow-600">+{totalROI.toFixed(1)}%</div>
-              <div className="text-sm text-yellow-800">Average ROI</div>
+            <div className="text-center p-4 bg-orange-500/10 border border-orange-500/20 rounded-lg">
+              <div className="text-2xl font-bold text-orange-400">+{totalROI.toFixed(1)}%</div>
+              <div className="text-sm text-orange-300">Average ROI</div>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Recent Activity */}
-      <Card className="border-2 border-purple-200">
+      <Card className="bg-black/40 backdrop-blur-sm border border-green-500/20">
         <CardHeader>
-          <CardTitle className="text-lg text-purple-800">Recent Activity</CardTitle>
+          <CardTitle className="text-lg text-white">Recent Activity</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {investments.slice(0, 3).map((investment) => (
-              <div key={investment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={investment.id} className="flex items-center justify-between p-3 bg-gray-800/40 rounded-lg">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{investment.cropIcon}</span>
                   <div>
-                    <div className="font-medium">{investment.cropType}</div>
-                    <div className="text-sm text-gray-600">{investment.farmerName}</div>
+                    <div className="font-medium text-white">{investment.cropType}</div>
+                    <div className="text-sm text-gray-400">{investment.farmerName}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-medium text-green-600">₦{investment.investmentAmount.toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">{investment.purchaseDate}</div>
+                  <div className="font-medium text-green-400">₦{investment.investmentAmount.toLocaleString()}</div>
+                  <div className="text-sm text-gray-400">{investment.purchaseDate}</div>
                 </div>
               </div>
             ))}

@@ -9,6 +9,8 @@ import { VoiceButton } from "@/components/voice-button"
 import { useLanguage } from "@/hooks/use-language"
 import Link from "next/link"
 import AnimatedFarmBackground from "@/components/animated-farm-background"
+import { useRouter } from "next/navigation"
+
 
 interface USSDStep {
   id: string
@@ -22,7 +24,8 @@ export default function USSDPage() {
   const { language } = useLanguage()
   const [currentStep, setCurrentStep] = useState("main")
   const [inputValue, setInputValue] = useState("")
-  const [sessionData, setSessionData] = useState<Record<string, string>>({})
+  const [sessionData, setSessionData] = useState<Record<string, string>>({}),
+    { back } = useRouter();
 
   const ussdSteps: Record<string, USSDStep> = {
     main: {
@@ -156,27 +159,35 @@ export default function USSDPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-400 p-4 font-mono relative">
-      <AnimatedFarmBackground />
-      <div className="absolute inset-0 bg-black/80 z-0"></div>
+    <div className="mt-8 min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Sophisticated Black & Green Background Pattern - Matching Landing Page */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(34,197,94,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+        {/* Elegant Green Accent Orbs */}
+        <div className="absolute top-20 left-20 w-40 h-40 bg-green-500/8 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 right-32 w-48 h-48 bg-green-400/6 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-green-600/10 rounded-full blur-2xl animate-pulse delay-500" />
+      </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 p-6">
         {/* USSD Header */}
         <div className="flex items-center justify-between mb-6">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="text-green-400 hover:text-green-300">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Exit USSD
-            </Button>
-          </Link>
-          <div className="flex items-center gap-2">
+          {/* <Link href="/"> */}
+          <Button onClick={back} variant="ghost" size="sm" className="text-white hover:bg-green-500/10 hover:text-green-400">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Exit USSD
+          </Button>
+          {/* </Link> */}
+          <div className="flex items-center gap-2 text-gray-300">
             <Phone className="w-5 h-5" />
             <span className="text-sm">*123# - ObodoFarm</span>
           </div>
         </div>
 
         {/* USSD Screen Simulation */}
-        <Card className="bg-gray-900 border-green-500 border-2 max-w-md mx-auto">
+        <Card className="bg-black/70 border-green-500/30 border-2 max-w-md mx-auto backdrop-blur-sm">
           <CardHeader className="pb-4">
             <CardTitle className="text-green-400 text-center text-lg">{currentStepData.title}</CardTitle>
           </CardHeader>
@@ -187,13 +198,13 @@ export default function USSDPage() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={currentStepData.inputPlaceholder}
-                  className="bg-black border-green-500 text-green-400 text-lg"
+                  className="bg-black/80 border-green-500/60 text-green-400 text-lg placeholder:text-green-400/50"
                   autoFocus
                 />
                 <div className="flex gap-2">
                   <Button
                     onClick={handleInputSubmit}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                    className="flex-1 bg-green-500 hover:bg-green-600 text-black font-bold shadow-lg shadow-green-500/30"
                     disabled={!inputValue.trim()}
                   >
                     Submit
@@ -201,7 +212,7 @@ export default function USSDPage() {
                   <Button
                     onClick={() => setCurrentStep("register")}
                     variant="outline"
-                    className="border-green-500 text-green-400"
+                    className="border-green-500/60 text-green-400 hover:bg-green-500/10 hover:border-green-400"
                   >
                     Back
                   </Button>
@@ -213,9 +224,9 @@ export default function USSDPage() {
                   <div key={index} className="text-green-400">
                     {option.action ? (
                       <Button
-                        onClick={() => handleOptionSelect(option.action)}
+                        onClick={() => handleOptionSelect(option.action!)}
                         variant="ghost"
-                        className="w-full justify-start text-left text-green-400 hover:text-green-300 hover:bg-green-900/20 p-2 h-auto"
+                        className="w-full justify-start text-left text-green-400 hover:text-green-300 hover:bg-green-500/10 p-2 h-auto"
                       >
                         <span className="font-bold mr-2">{option.key}</span>
                         {option.text}
@@ -232,20 +243,20 @@ export default function USSDPage() {
             )}
 
             {/* Voice Support */}
-            <div className="pt-4 border-t border-green-500">
+            <div className="pt-4 border-t border-green-500/30">
               <VoiceButton
                 text={`${currentStepData.title}. ${currentStepData.options
                   .map((opt) => `${opt.key} ${opt.text}`)
                   .join(". ")}`}
                 language={language}
-                className="w-full bg-green-700 hover:bg-green-600 text-white"
+                className="w-full bg-green-500 hover:bg-green-600 text-black font-bold shadow-lg shadow-green-500/30"
               />
             </div>
           </CardContent>
         </Card>
 
         {/* Instructions */}
-        <div className="max-w-md mx-auto mt-6 text-center text-green-300 text-sm">
+        <div className="max-w-md mx-auto mt-6 text-center text-gray-300 text-sm">
           <p>Use number keys to select options</p>
           <p>Press 9 to go back, 0 to exit</p>
         </div>

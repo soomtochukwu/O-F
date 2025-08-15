@@ -26,9 +26,14 @@ html {
 }
         `}</style>
       </head>
-      <body>
+      <body className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
         <Providers>
-          {children}
+          {/* Fixed Header across all pages */}
+          <Header />
+          {/* Main content with proper spacing for fixed header */}
+          <main className="pt-16">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

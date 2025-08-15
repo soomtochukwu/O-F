@@ -9,7 +9,7 @@ import {
     lightTheme,
     darkTheme,
 } from "@rainbow-me/rainbowkit";
-import { coreWallet, metaMaskWallet, okxWallet, trustWallet } from "@rainbow-me/rainbowkit/wallets";
+import { coreWallet } from "@rainbow-me/rainbowkit/wallets";
 import { avalanche, avalancheFuji } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
@@ -30,8 +30,8 @@ const localAvalancheSubnet = defineChain({
         },
     },
     blockExplorers: {
-        default: { 
-            name: 'Local Explorer', 
+        default: {
+            name: 'Local Explorer',
             url: 'http://localhost:8080' // Adjust if you have a local block explorer
         },
     },
@@ -53,9 +53,9 @@ const customSubnet = defineChain({
         },
     },
     blockExplorers: {
-        default: { 
-            name: 'Subnet Explorer', 
-            url: 'http://localhost:8080' 
+        default: {
+            name: 'Subnet Explorer',
+            url: 'http://localhost:8080'
         },
     },
     testnet: true,
@@ -79,9 +79,8 @@ const config = getDefaultConfig({
     wallets: [
         {
             groupName: "Other",
-            wallets: [coreWallet, metaMaskWallet, okxWallet, trustWallet],
+            wallets: [coreWallet],
         },
-        ...wallets,
     ],
     chains: [
         // Prioritize local subnet for development
