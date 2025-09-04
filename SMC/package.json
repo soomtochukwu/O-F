@@ -4,11 +4,13 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy:local": "hardhat run scripts/deploy-subnet.ts --network local",
-    "deploy:subnet": "hardhat run scripts/deploy-subnet.ts --network subnet",
-    "deploy:fuji": "hardhat run scripts/deploy-subnet.ts --network fuji",
-    "deploy:avalanche": "hardhat run scripts/deploy-subnet.ts --network avalanche",
-    "verify:subnet": "hardhat verify --network subnet",
+    "deploy:localhost": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:base-sepolia": "hardhat run scripts/deploy.ts --network base-sepolia",
+    "deploy:base": "hardhat run scripts/deploy.ts --network base",
+    "deploy:base-detailed": "hardhat run scripts/deploy-base.ts --network base",
+    "deploy:base-sepolia-detailed": "hardhat run scripts/deploy-base.ts --network base-sepolia",
+    "verify:base": "hardhat verify --network base",
+    "verify:base-sepolia": "hardhat verify --network base-sepolia",
     "node:local": "hardhat node"
   },
   "devDependencies": {

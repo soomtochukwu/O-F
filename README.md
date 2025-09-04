@@ -4,7 +4,7 @@
 
 [![Hackathon](https://img.shields.io/badge/Status-MVP%20Hackathon-orange)](https://github.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Avalanche](https://img.shields.io/badge/Blockchain-Avalanche%20Subnet-red)](https://www.avax.network/)
+[![Base](https://img.shields.io/badge/Blockchain-Base%20Network-blue)](https://base.org/)
 
 ## 🎯 Problem Statement
 
@@ -30,8 +30,8 @@ ObodoFarm is a **Farmer Cooperative-as-a-Service** that digitizes trust, aggrega
 
 - **Frontend**: Next.js (React-based, mobile-responsive)
 - **Backend**: Express.js with MongoDB
-- **Blockchain**: Avalanche Subnet (ObodoFarm Subnet)
-- **Smart Contracts**: Avalanche Starter Kit (Solidity + OpenZeppelin)
+- **Blockchain**: Base Network (Ethereum L2)
+- **Smart Contracts**: Solidity + OpenZeppelin on Base
 - **Mobile Integration**: Africa's Talking (USSD + SMS)
 - **AI Advisory**: Weather API + template-based crop tips
 
@@ -40,7 +40,7 @@ ObodoFarm is a **Farmer Cooperative-as-a-Service** that digitizes trust, aggrega
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │    Backend      │    │   Blockchain    │
-│   (Next.js)     │◄──►│  (Express.js)   │◄──►│ (Avalanche Sub) │
+│   (Next.js)     │◄──►│  (Express.js)   │◄──►│ (Base Network)  │
 │                 │    │   (MongoDB)     │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          ▲                       ▲                       ▲
@@ -103,7 +103,8 @@ ObodoFarm is a **Farmer Cooperative-as-a-Service** that digitizes trust, aggrega
 
 - Node.js 18+
 - MongoDB 6.0+
-- Avalanche CLI
+- Hardhat
+- Base network access
 - Africa's Talking API credentials
 
 ### 1. Clone the Repository
@@ -116,15 +117,24 @@ cd obodofarm
 ### 2. Smart Contracts Setup
 
 ```bash
-cd contracts
+cd SMC
 npm install
 
-# Initialize Avalanche subnet
-avalanche subnet create obodofarm-subnet
-avalanche subnet deploy obodofarm-subnet
+# Copy environment variables
+cp .env.example .env
+# Edit .env with your private keys and API keys
 
-# Deploy contracts
-npm run deploy:testnet
+# Compile contracts
+npm run compile
+
+# Deploy to localhost
+npm run deploy:localhost
+
+# Deploy to Base Sepolia testnet
+npm run deploy:base-sepolia
+
+# Deploy to Base mainnet
+npm run deploy:base
 ```
 
 ### 3. Backend Setup
@@ -136,7 +146,7 @@ cp .env.example .env
 
 # Configure environment variables
 # MONGODB_URI=mongodb://localhost:27017/obodofarm
-# AVALANCHE_RPC_URL=your_subnet_rpc_url
+# BASE_RPC_URL=your_base_rpc_url
 # AFRICAS_TALKING_API_KEY=your_api_key
 # WEATHER_API_KEY=your_weather_api_key
 
@@ -146,13 +156,14 @@ npm run dev
 ### 4. Frontend Setup
 
 ```bash
-cd frontend
+cd FE
 npm install
-cp .env.local.example .env.local
+cp .env.example .env.local
 
 # Configure Next.js environment variables
 # NEXT_PUBLIC_API_URL=http://localhost:3001
-# NEXT_PUBLIC_CHAIN_ID=your_subnet_chain_id
+# NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+# NEXT_PUBLIC_DEFAULT_CHAIN=base
 
 npm run dev
 ```
@@ -187,6 +198,26 @@ npm run dev
    - Display SMS: "Rain expected. Apply organic neem oil for pest control."
 
 7. **Ask (15s)**: "We need pilot partners and warehouse connections."
+
+## 🌐 Supported Networks
+
+### Base Mainnet (Production)
+- **Chain ID**: 8453
+- **RPC URL**: https://mainnet.base.org
+- **Block Explorer**: https://basescan.org
+- **Native Token**: ETH
+
+### Base Sepolia (Staging/Testing)
+- **Chain ID**: 84532
+- **RPC URL**: https://sepolia.base.org
+- **Block Explorer**: https://sepolia.basescan.org
+- **Native Token**: ETH
+
+### Localhost (Development)
+- **Chain ID**: 31337
+- **RPC URL**: http://localhost:8545
+- **Block Explorer**: http://localhost:8080
+- **Native Token**: ETH
 
 ## 💼 Business Model
 
@@ -248,7 +279,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ### Development Team Roles
 
 - **Product Lead**: User research, feature prioritization
-- **Smart Contract Dev**: Solidity, Avalanche integration
+- **Smart Contract Dev**: Solidity, Base network integration
 - **Frontend Dev**: Next.js, mobile-responsive UI
 - **Backend Dev**: Express.js APIs, database design
 - **Mobile Integrator**: USSD/SMS, Africa's Talking
@@ -274,7 +305,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Nigeria's Ministry of Agriculture
 - Local cooperative unions
-- Avalanche Foundation
+- Base Foundation
 - Africa's Talking API
 - Hackathon organizing committee
 

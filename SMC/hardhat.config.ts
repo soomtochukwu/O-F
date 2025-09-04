@@ -5,13 +5,13 @@ import "@openzeppelin/hardhat-upgrades";
 import "dotenv/config";
 
 // Private keys for testing (DO NOT use in production)
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "0x56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027"; // Default ewoq key
-const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2 || "0x7b4198529994b0dc604278c99d153cfd069d594753d471171a1d102a10438e07";
+const PRIVATE_KEY = process.env.PRIVATE_KEY || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2 || "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
 
-// Subnet configuration
-const SUBNET_RPC_URL = process.env.SUBNET_RPC_URL || "http://localhost:9650/ext/bc/myblockchain/rpc";
-const SUBNET_CHAIN_ID = parseInt(process.env.SUBNET_CHAIN_ID || "500500");
-const SUBNET_NAME = process.env.SUBNET_NAME || "myblockchain";
+// Base network configuration
+const BASE_MAINNET_RPC_URL = process.env.BASE_MAINNET_RPC_URL || "https://mainnet.base.org";
+const BASE_TESTNET_RPC_URL = process.env.BASE_TESTNET_RPC_URL || "https://sepolia.base.org";
+const LOCALHOST_RPC_URL = process.env.LOCALHOST_RPC_URL || "http://localhost:8545";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -25,61 +25,65 @@ const config: HardhatUserConfig = {
     }
   },
   networks: {
-    // Avalanche Mainnet C-Chain
-    avalanche: {
-      url: "https://api.avax.network/ext/bc/C/rpc",
-      gasPrice: 225000000000,
-      chainId: 43114,
+    // Base Mainnet
+    base: {
+      url: BASE_MAINNET_RPC_URL,
+      gasPrice: 1000000000, // 1 gwei
+      chainId: 8453,
       accounts: [PRIVATE_KEY],
       timeout: 60000
     },
-    // Avalanche Fuji Testnet
-    fuji: {
-      url: "https://api.avax-test.network/ext/bc/C/rpc",
-      gasPrice: 225000000000,
-      chainId: 43113,
+    // Base Sepolia Testnet
+    "base-sepolia": {
+      url: BASE_TESTNET_RPC_URL,
+      gasPrice: 1000000000, // 1 gwei
+      chainId: 84532,
       accounts: [PRIVATE_KEY],
       timeout: 60000
     },
-    // Local Avalanche Network (using avalanche-cli)
-    local: {
-      url: "http://localhost:9650/ext/bc/C/rpc",
-      gasPrice: 225000000000,
-      chainId: 43112,
+    // Local development network
+    localhost: {
+      url: LOCALHOST_RPC_URL,
+      gasPrice: 20000000000, // 20 gwei
+      chainId: 31337,
       accounts: [PRIVATE_KEY, PRIVATE_KEY_2],
       timeout: 60000
     },
-    // Custom Avalanche Subnet/L1
-    subnet: {
-      url: SUBNET_RPC_URL,
-      gasPrice: 25000000000,
-      chainId: SUBNET_CHAIN_ID,
-      accounts: [PRIVATE_KEY, PRIVATE_KEY_2],
-      timeout: 60000
-    },
-    // Alternative subnet configuration (for multiple subnets)
-    myblockchain: {
-      url: "http://localhost:9650/ext/bc/myblockchain/rpc",
-      gasPrice: 25000000000,
-      chainId: 500500,
-      accounts: [PRIVATE_KEY, PRIVATE_KEY_2],
-      timeout: 60000
+    // Hardhat network for testing
+    hardhat: {
+      chainId: 31337,
+      accounts: [
+        {
+          privateKey: PRIVATE_KEY,
+          balance: "10000000000000000000000" // 10000 ETH
+        },
+        {
+          privateKey: PRIVATE_KEY_2,
+          balance: "10000000000000000000000" // 10000 ETH
+        }
+      ]
     }
   },
   etherscan: {
     apiKey: {
-      avalanche: process.env.SNOWTRACE_API_KEY || "",
-      avalancheFujiTestnet: process.env.SNOWTRACE_API_KEY || "",
-      // Add custom subnet explorer API key if available
-      subnet: process.env.SUBNET_EXPLORER_API_KEY || ""
+      base: process.env.BASESCAN_API_KEY || "",
+      "base-sepolia": process.env.BASESCAN_API_KEY || ""
     },
     customChains: [
       {
-        network: "subnet",
-        chainId: SUBNET_CHAIN_ID,
+        network: "base",
+        chainId: 8453,
         urls: {
-          apiURL: process.env.SUBNET_EXPLORER_API_URL || "http://localhost:4000/api",
-          browserURL: process.env.SUBNET_EXPLORER_URL || "http://localhost:4000"
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org"
+        }
+      },
+      {
+        network: "base-sepolia",
+        chainId: 84532,
+        urls: {
+          apiURL: "https://api-sepolia.basescan.org/api",
+          browserURL: "https://sepolia.basescan.org"
         }
       }
     ]

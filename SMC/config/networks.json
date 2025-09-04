@@ -1,0 +1,57 @@
+{
+  "networks": {
+    "localhost": {
+      "name": "Localhost",
+      "chainId": 31337,
+      "rpcUrl": "http://localhost:8545",
+      "blockExplorer": "http://localhost:8080",
+      "nativeCurrency": {
+        "name": "Ether",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "testnet": true
+    },
+    "base-sepolia": {
+      "name": "Base Sepolia",
+      "chainId": 84532,
+      "rpcUrl": "https://sepolia.base.org",
+      "blockExplorer": "https://sepolia.basescan.org",
+      "nativeCurrency": {
+        "name": "Ether",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "testnet": true
+    },
+    "base": {
+      "name": "Base Mainnet",
+      "chainId": 8453,
+      "rpcUrl": "https://mainnet.base.org",
+      "blockExplorer": "https://basescan.org",
+      "nativeCurrency": {
+        "name": "Ether",
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "testnet": false
+    }
+  },
+  "contracts": {
+    "UserRegistry": {
+      "localhost": "",
+      "base-sepolia": "",
+      "base": ""
+    },
+    "TransportBooking": {
+      "localhost": "",
+      "base-sepolia": "",
+      "base": ""
+    },
+    "Lock": {
+      "localhost": "",
+      "base-sepolia": "",
+      "base": ""
+    }
+  }
+}

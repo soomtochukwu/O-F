@@ -119,7 +119,7 @@ async function deployContract(
 }
 
 async function verifyContract(address: string, constructorArgs: any[] = []) {
-  if (network.name === "local" || network.name === "subnet") {
+  if (network.name === "localhost" || network.name === "hardhat") {
     console.log(`⚠️  Skipping verification on local network: ${network.name}`);
     return;
   }
@@ -128,7 +128,7 @@ async function verifyContract(address: string, constructorArgs: any[] = []) {
     console.log(`\n🔍 Verifying contract at ${address}...`);
     await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
     
-    // Note: You'll need to implement verification for your subnet explorer
+    // Note: You'll need to implement verification for Base network explorer
     // This is a placeholder for the verification process
     console.log(`✅ Contract verification completed for ${address}`);
   } catch (error) {
@@ -137,7 +137,7 @@ async function verifyContract(address: string, constructorArgs: any[] = []) {
 }
 
 async function main() {
-  console.log("🚀 Starting Avalanche Subnet Deployment Script\n");
+  console.log("🚀 Starting Base Network Deployment Script\n");
   
   // Get network information
   const networkInfo = await getNetworkInfo();
@@ -151,12 +151,12 @@ async function main() {
   const balance = await ethers.provider.getBalance(deployerAddress);
   
   console.log(`\n👤 Deployer: ${deployerAddress}`);
-  console.log(`💰 Balance: ${ethers.formatEther(balance)} AVAX`);
+  console.log(`💰 Balance: ${ethers.formatEther(balance)} ETH`);
   
   // Check if we have enough balance
   const minBalance = ethers.parseEther("0.1");
   if (balance < minBalance) {
-    throw new Error(`Insufficient balance. Need at least 0.1 AVAX, have ${ethers.formatEther(balance)} AVAX`);
+    throw new Error(`Insufficient balance. Need at least 0.1 ETH, have ${ethers.formatEther(balance)} ETH`);
   }
   
   const deployments: DeploymentResult[] = [];
@@ -210,4 +210,4 @@ if (require.main === module) {
     });
 }
 
-export { main as deployToSubnet, deployContract, verifyContract };
+export { main as deployToBase, deployContract, verifyContract };
