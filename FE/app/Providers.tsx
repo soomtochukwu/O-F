@@ -10,64 +10,42 @@ import {
     darkTheme,
 } from "@rainbow-me/rainbowkit";
 import { coreWallet } from "@rainbow-me/rainbowkit/wallets";
-import { avalanche, avalancheFuji } from "wagmi/chains";
+import { base, baseSepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { defineChain } from "viem";
 
-// Define your local Avalanche subnet/L1
-const localAvalancheSubnet = defineChain({
-    id: 99999, // Use a unique chain ID for your subnet
-    name: 'Local Avalanche Subnet',
+// Define localhost development chain
+const localhost = defineChain({
+    id: 31337,
+    name: 'Localhost',
     nativeCurrency: {
         decimals: 18,
-        name: 'AVAX',
-        symbol: 'AVAX',
+        name: 'Ether',
+        symbol: 'ETH',
     },
     rpcUrls: {
         default: {
-            http: ['http://127.0.0.1:9650/ext/bc/C/rpc'], // Default Avalanche local node RPC
+            http: ['http://127.0.0.1:8545'],
         },
     },
     blockExplorers: {
         default: {
             name: 'Local Explorer',
-            url: 'http://localhost:8080' // Adjust if you have a local block explorer
-        },
-    },
-    testnet: true,
-})
-
-// Alternative configuration for custom subnet
-const customSubnet = defineChain({
-    id: 12345, // Replace with your actual subnet chain ID
-    name: 'Custom Avalanche Subnet',
-    nativeCurrency: {
-        decimals: 18,
-        name: 'Custom Token', // Replace with your subnet's native token name
-        symbol: 'CTK', // Replace with your subnet's native token symbol
-    },
-    rpcUrls: {
-        default: {
-            http: ['http://127.0.0.1:9650/ext/bc/YOUR_SUBNET_ID/rpc'], // Replace with your subnet RPC URL
-        },
-    },
-    blockExplorers: {
-        default: {
-            name: 'Subnet Explorer',
             url: 'http://localhost:8080'
         },
     },
     testnet: true,
 })
 
+
 // Determine initial chain based on environment
 const getInitialChain = () => {
-    // Always use local subnet in development
+    // Always use localhost in development
     if (process.env.NODE_ENV === 'development') {
-        return localAvalancheSubnet; // or customSubnet
+        return localhost;
     }
-    return avalanche;
+    return base;
 };
 
 // Add this missing line
@@ -83,14 +61,13 @@ const config = getDefaultConfig({
         },
     ],
     chains: [
-        // Prioritize local subnet for development
-        localAvalancheSubnet,
-        // customSubnet, // Uncomment if using custom subnet
-        avalancheFuji,
-        avalanche,
+        // Prioritize localhost for development
+        localhost,
+        baseSepolia,
+        base,
         // Only include additional chains if explicitly enabled
         ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-            ? [avalancheFuji]
+            ? [baseSepolia]
             : []),
     ],
     ssr: true,
